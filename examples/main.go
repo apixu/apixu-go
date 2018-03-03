@@ -7,12 +7,12 @@ func main() {
 	config := apixu.Config{
 		Version: "1",
 		Format:  "json",
-		ApiKey:  "<your api key>",
+		APIKey:  "<your api key>",
 	}
 
 	a, err := apixu.New(config)
 	if err != nil {
-		e := err.(*apixu.ApixuError)
+		e := err.(*apixu.Error)
 		log.Fatal(e.Error(), e.Response().Code, e.Response().Message)
 	}
 
@@ -21,7 +21,7 @@ func main() {
 	current, err := a.GetCurrent(q)
 
 	if err != nil {
-		e := err.(*apixu.ApixuError)
+		e := err.(*apixu.Error)
 		log.Fatal(e.Error(), e.Response().Code, e.Response().Message)
 	}
 
@@ -67,7 +67,7 @@ func main() {
 	search, err := a.Search(q)
 
 	if err != nil {
-		e := err.(*apixu.ApixuError)
+		e := err.(*apixu.Error)
 		log.Fatal(e.Error(), e.Response().Code, e.Response().Message)
 	}
 
@@ -86,7 +86,7 @@ func main() {
 	conditions, err := a.GetConditions()
 
 	if err != nil {
-		e := err.(*apixu.ApixuError)
+		e := err.(*apixu.Error)
 		log.Fatal(e.Error(), e.Response().Code, e.Response().Message)
 	}
 	

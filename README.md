@@ -11,7 +11,7 @@ go get -t ./...
 
 ## Error handling
 
-For more details of an API method error, assert it to the [apixu.ApixuError](./apixu_error.go) type.
+For more details of an API method error, assert it to the [apixu.Error](./apixu_error.go) type.
 
 ## Methods implementations status
 
@@ -26,3 +26,8 @@ For more details of an API method error, assert it to the [apixu.ApixuError](./a
 ## Testing
 
 go vet && go test -coverprofile /tmp/cover.out && go tool cover -html=/tmp/cover.out
+
+## Lint
+
+go get -u golang.org/x/lint/golint
+go lint .

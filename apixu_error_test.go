@@ -3,18 +3,18 @@ package apixu
 import (
 	"errors"
 	"testing"
-	. "github.com/andreiavrammsd/apixu-go/response"
+	"github.com/andreiavrammsd/apixu-go/response"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestApixuError(t *testing.T) {
+func TestError(t *testing.T) {
 	text := "Message (1000)"
 	code := uint16(1000)
 	message := "Message"
 
-	err := ApixuError{
+	err := Error{
 		errors.New(text),
-		ErrorResponse{
+		response.ErrorResponse{
 			Code:    code,
 			Message: message,
 		},

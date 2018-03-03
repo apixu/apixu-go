@@ -2,7 +2,9 @@ package apixu
 
 import "net/http"
 
-type HttpClient interface {
+// HTTPClient defines methods needed for the HTTP client
+// used to call the REST service
+type HTTPClient interface {
 	Get(url string) (*http.Response, error)
 }
 

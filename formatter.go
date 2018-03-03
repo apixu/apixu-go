@@ -3,43 +3,46 @@ package apixu
 import (
 	"encoding/json"
 	"encoding/xml"
-	"errors"
 	"fmt"
 )
 
+// Formatter defines methods needed for the formatter
+// used to convert the REST response to specified type
 type Formatter interface {
 	Unmarshal(data []byte, object interface{}) error
 }
 
-type JsonFormatter struct {
+type jsonFormatter struct {
 }
 
-func (f *JsonFormatter) Unmarshal(data []byte, object interface{}) error {
+func (f *jsonFormatter) Unmarshal(data []byte, object interface{}) error {
 	return json.Unmarshal(data, &object)
 }
 
-type XmlFormatter struct {
+type xmlFormatter struct {
 }
 
-func (f *XmlFormatter) Unmarshal(data []byte, object interface{}) error {
+func (f *xmlFormatter) Unmarshal(data []byte, object interface{}) error {
 	return xml.Unmarshal(data, &object)
 }
 
+// NewFormatter returns formatter instance based on
+// specified format type (JSON or XML)
 func NewFormatter(format string) (Formatter, error) {
-	var formatter Formatter
-	var err error
-
-	err = nil
+	var  (
+		formatter Formatter
+		err error
+	)
 
 	switch format {
 	case "json":
-		formatter = &JsonFormatter{}
+		formatter = &jsonFormatter{}
 		break
 	case "xml":
-		formatter = &XmlFormatter{}
+		formatter = &xmlFormatter{}
 		break
 	default:
-		err = errors.New(fmt.Sprintf("Unknown format: %s", format))
+		err = fmt.Errorf("Unknown format: %s", format)
 		break
 	}
 

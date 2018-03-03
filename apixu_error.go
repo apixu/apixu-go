@@ -1,17 +1,18 @@
 package apixu
 
-import . "github.com/andreiavrammsd/apixu-go/response"
+import "github.com/andreiavrammsd/apixu-go/response"
 
-// ApixuError adds error details based on the API error response
-type ApixuError struct {
+// Error adds error details based on the API error response
+type Error struct {
 	err error
-	res ErrorResponse
+	res response.ErrorResponse
 }
 
-func (ar *ApixuError) Error() string {
+func (ar *Error) Error() string {
 	return ar.err.Error()
 }
 
-func (ar *ApixuError) Response() ErrorResponse {
+// Response provides extra error info
+func (ar *Error) Response() response.ErrorResponse {
 	return ar.res
 }

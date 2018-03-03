@@ -18,7 +18,7 @@ func TestNew(t *testing.T) {
 
 func TestNewWithError(t *testing.T) {
 	c := Config{}
-	c.Format = "uknown format"
+	c.Format = "unknown format"
 	a, err := New(c)
 
 	assert.Implements(t, (*Apixu)(nil), a)
@@ -32,14 +32,14 @@ func TestGetApiUrl(t *testing.T) {
 	r := request{"GET", "query"}
 
 	expected := fmt.Sprintf(
-		API_URL,
+		apiURL,
 		a.config.Version,
 		r.method,
 		a.config.Format,
-		a.config.ApiKey,
+		a.config.APIKey,
 		r.query,
 	)
-	result := a.getApiUrl(r)
+	result := a.getAPIURL(r)
 
 	assert.Equal(t, expected, result)
 }

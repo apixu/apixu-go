@@ -11,13 +11,13 @@ type jsonStruct struct {
 
 func TestNewFormatterJson(t *testing.T) {
 	formatter, err := NewFormatter("json")
-	assert.IsType(t, &JsonFormatter{}, formatter)
+	assert.IsType(t, &jsonFormatter{}, formatter)
 	assert.Nil(t, err)
 }
 
 func TestNewFormatterXml(t *testing.T) {
 	formatter, err := NewFormatter("xml")
-	assert.IsType(t, &XmlFormatter{}, formatter)
+	assert.IsType(t, &xmlFormatter{}, formatter)
 	assert.Nil(t, err)
 }
 
@@ -27,7 +27,7 @@ func TestNewFormatterWhenFormatIsUnknown(t *testing.T) {
 }
 
 func TestUnmarshalJson(t *testing.T) {
-	formatter := &JsonFormatter{}
+	formatter := &jsonFormatter{}
 
 	jsonString := `{
 		"key" : "value"
@@ -46,7 +46,7 @@ func TestUnmarshalJson(t *testing.T) {
 }
 
 func TestUnmarshalJsonWithInvalidInput(t *testing.T) {
-	formatter := &JsonFormatter{}
+	formatter := &jsonFormatter{}
 
 	jsonString := `{
 		invalid json
@@ -64,7 +64,7 @@ type xmlStruct struct {
 }
 
 func TestUnmarshalXml(t *testing.T) {
-	formatter := &XmlFormatter{}
+	formatter := &xmlFormatter{}
 
 	xmlString := `<?xml version="1.0" encoding="utf-8"?>
 	<root>
@@ -84,7 +84,7 @@ func TestUnmarshalXml(t *testing.T) {
 }
 
 func TestUnmarshalXmlWithInvalidInput(t *testing.T) {
-	formatter := &XmlFormatter{}
+	formatter := &xmlFormatter{}
 
 	xmlString := `<?xml version="1.0" encoding="utf-8"?>
 	invalid xml`
