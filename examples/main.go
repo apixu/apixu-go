@@ -89,7 +89,7 @@ func main() {
 		e := err.(*apixu.Error)
 		log.Fatal(e.Error(), e.Response().Code, e.Response().Message)
 	}
-	
+
 	for _, c := range conditions {
 		log.Println("ID:", c.Code)
 		log.Println("Day:", c.Day)

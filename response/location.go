@@ -1,5 +1,6 @@
 package response
 
+// Location provides info on the returned location
 type Location struct {
 	ID             uint32  `json:"id,omitempty" xml:"id,omitempty"`
 	Name           string  `json:"name" xml:"name"`

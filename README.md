@@ -25,9 +25,9 @@ For more details of an API method error, assert it to the [apixu.Error](./apixu_
 
 ## Testing
 
-go vet && go test -coverprofile /tmp/cover.out && go tool cover -html=/tmp/cover.out
+OUT=/tmp/cover.out && go fmt ./... && go vet && go test ./... -coverprofile $OUT && go tool cover -html=$OUT
 
 ## Lint
 
 go get -u golang.org/x/lint/golint
-go lint .
+golint ./...

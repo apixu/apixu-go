@@ -2,9 +2,9 @@ package apixu
 
 import (
 	"errors"
-	"testing"
 	"github.com/andreiavrammsd/apixu-go/response"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func TestError(t *testing.T) {

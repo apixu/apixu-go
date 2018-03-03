@@ -7,5 +7,5 @@ package apixu
 type Config struct {
 	Version string
 	Format  string
-	APIKey string
+	APIKey  string
 }

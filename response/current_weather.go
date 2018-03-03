@@ -1,16 +1,18 @@
 package response
 
+// CurrentWeather defines the current weather response
 type CurrentWeather struct {
 	Location Location `json:"location" xml:"location"`
 	Current  Current  `json:"current" xml:"current"`
 }
 
+// Current defines the current weather info
 type Current struct {
 	LastUpdatedEpoch    int32            `json:"last_updated_epoch" xml:"last_updated_epoch"`
 	LastUpdated         string           `json:"last_updated" xml:"last_updated"`
 	TempCelsius         float32          `json:"temp_c" xml:"temp_c"`
 	TempFahrenheit      float32          `json:"temp_f" xml:"temp_f"`
-	IsDay               uint8           `json:"is_day" xml:"is_day"`
+	IsDay               uint8            `json:"is_day" xml:"is_day"`
 	Condition           CurrentCondition `json:"condition" xml:"condition"`
 	WindMPH             float32          `json:"wind_mph" xml:"wind_mph"`
 	WindKMH             float32          `json:"wind_kph" xml:"wind_kph"`
@@ -28,6 +30,7 @@ type Current struct {
 	VisMiles            float32          `json:"vis_miles" xml:"vis_miles"`
 }
 
+// CurrentCondition defines the condition item for current weather response
 type CurrentCondition struct {
 	Text string `json:"text" xml:"text"`
 	Icon string `json:"icon" xml:"icon"`

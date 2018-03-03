@@ -29,9 +29,9 @@ func (f *xmlFormatter) Unmarshal(data []byte, object interface{}) error {
 
 // New returns formatter instance based on specified format type (JSON or XML)
 func New(format string) (Formatter, error) {
-	var  (
+	var (
 		formatter Formatter
-		err error
+		err       error
 	)
 
 	switch format {

@@ -2,9 +2,9 @@ package apixu
 
 import (
 	"errors"
+	"github.com/stretchr/testify/assert"
 	"net/http"
 	"testing"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestGet(t *testing.T) {
