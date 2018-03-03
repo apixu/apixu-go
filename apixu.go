@@ -71,47 +71,39 @@ var ioutilReadAll = ioutil.ReadAll
 
 // call uses the HTTP Client to call the REST service
 func (a *apixu) call(url string, b interface{}) error {
-	apixuError := &ApixuError{}
-
 	res, err := a.httpClient.Get(url)
 	if err != nil {
-		apixuError.err = err
-		return apixuError
+		return &ApixuError{err, ErrorResponse{}}
 	}
 
 	body, err := ioutilReadAll(res.Body)
 	defer res.Body.Close()
 	if err != nil {
-		apixuError.err = err
-		return apixuError
+		return &ApixuError{err, ErrorResponse{}}
 	}
 
 	if res.StatusCode >= 400 {
 		apiError := Error{}
 		err = a.formatter.Unmarshal(body, &apiError)
-
 		if err != nil {
-			apixuError.err = err
-			return apixuError
+			return &ApixuError{err, ErrorResponse{}}
 		}
 
-		apixuError.err = errors.New(
-			fmt.Sprintf(
-				"%s (%d)",
-				apiError.Error.Message,
-				apiError.Error.Code,
+		return &ApixuError{
+			errors.New(
+				fmt.Sprintf(
+					"%s (%d)",
+					apiError.Error.Message,
+					apiError.Error.Code,
+				),
 			),
-		)
-		apixuError.res = apiError.Error
-
-		return apixuError
+			apiError.Error,
+		}
 	}
 
 	err = a.formatter.Unmarshal(body, &b)
-
 	if err != nil {
-		apixuError.err = err
-		return apixuError
+		return &ApixuError{err, ErrorResponse{}}
 	}
 
 	return nil
