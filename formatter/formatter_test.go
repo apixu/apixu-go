@@ -1,4 +1,4 @@
-package apixu
+package formatter
 
 import (
 	"github.com/stretchr/testify/assert"
@@ -9,20 +9,20 @@ type jsonStruct struct {
 	Key string `json:"key"`
 }
 
-func TestNewFormatterJson(t *testing.T) {
-	formatter, err := NewFormatter("json")
+func TestNewJsonFormatter(t *testing.T) {
+	formatter, err := New("json")
 	assert.IsType(t, &jsonFormatter{}, formatter)
 	assert.Nil(t, err)
 }
 
-func TestNewFormatterXml(t *testing.T) {
-	formatter, err := NewFormatter("xml")
+func TestNewXmlFormatter(t *testing.T) {
+	formatter, err := New("xml")
 	assert.IsType(t, &xmlFormatter{}, formatter)
 	assert.Nil(t, err)
 }
 
-func TestNewFormatterWhenFormatIsUnknown(t *testing.T) {
-	_, err := NewFormatter("txt")
+func TestNewWhenFormatIsUnknown(t *testing.T) {
+	_, err := New("txt")
 	assert.NotNil(t, err)
 }
 

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"github.com/andreiavrammsd/apixu-go/response"
+	"github.com/andreiavrammsd/apixu-go/formatter"
 )
 
 const apiURL = "https://api.apixu.com/v%s/%s.%s?key=%s&q=%s"
@@ -20,7 +21,7 @@ type Apixu interface {
 type apixu struct {
 	config     Config
 	httpClient HTTPClient
-	formatter  Formatter
+	formatter  formatter.Formatter
 }
 
 type request struct {
@@ -123,7 +124,7 @@ func (a *apixu) getAPIURL(r request) string {
 func New(c Config) (Apixu, error) {
 	a := &apixu{}
 
-	formatter, err := NewFormatter(c.Format)
+	formatter, err := formatter.New(c.Format)
 	if err != nil {
 		return a, &Error{err, response.ErrorResponse{}}
 	}

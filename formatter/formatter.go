@@ -1,4 +1,6 @@
-package apixu
+// Package formatter provides methods to convert JSON/XML
+// strings to provided types
+package formatter
 
 import (
 	"encoding/json"
@@ -6,8 +8,7 @@ import (
 	"fmt"
 )
 
-// Formatter defines methods needed for the formatter
-// used to convert the REST response to specified type
+// Formatter defines methods needed for all formatter types
 type Formatter interface {
 	Unmarshal(data []byte, object interface{}) error
 }
@@ -26,9 +27,8 @@ func (f *xmlFormatter) Unmarshal(data []byte, object interface{}) error {
 	return xml.Unmarshal(data, &object)
 }
 
-// NewFormatter returns formatter instance based on
-// specified format type (JSON or XML)
-func NewFormatter(format string) (Formatter, error) {
+// New returns formatter instance based on specified format type (JSON or XML)
+func New(format string) (Formatter, error) {
 	var  (
 		formatter Formatter
 		err error
