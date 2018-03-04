@@ -30,4 +30,5 @@ OUT=/tmp/cover.out && go fmt ./... && go vet && go test ./... -coverprofile $OUT
 ## Lint
 
 go get -u golang.org/x/lint/golint
+
 golint ./...
