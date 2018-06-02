@@ -11,7 +11,7 @@ go get -t ./...
 
 ## Error handling
 
-For more details of an API method error, assert it to the [apixu.Error](./apixu_error.go) type.
+For more details of an API method error, assert it to the [apixu.Error](./error.go) type.
 
 ## Methods implementations status
 
