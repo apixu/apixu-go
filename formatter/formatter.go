@@ -29,22 +29,12 @@ func (f *xmlFormatter) Unmarshal(data []byte, object interface{}) error {
 
 // New returns formatter instance based on specified format type (JSON or XML)
 func New(format string) (Formatter, error) {
-	var (
-		formatter Formatter
-		err       error
-	)
-
 	switch format {
 	case "json":
-		formatter = &jsonFormatter{}
-		break
+		return &jsonFormatter{}, nil
 	case "xml":
-		formatter = &xmlFormatter{}
-		break
+		return &xmlFormatter{}, nil
 	default:
-		err = fmt.Errorf("Unknown format: %s", format)
-		break
+		return nil, fmt.Errorf("unknown format: %s", format)
 	}
-
-	return formatter, err
 }
