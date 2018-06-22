@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+cmd=$1
+
+case "$cmd" in
+"install")
+    go get -u \
+        golang.org/x/lint/golint \
+        honnef.co/go/tools/cmd/megacheck \
+        mvdan.cc/interfacer \
+        github.com/alexkohler/prealloc \
+        github.com/kisielk/errcheck
+    ;;
+"check")
+    tools=(
+        "go test"
+        "go fmt"
+        "go vet"
+        golint
+        megacheck
+        interfacer
+        prealloc
+        errcheck
+    )
+    for var in "${tools[@]}"
+    do
+      echo "${var}"
+      sh -c "${var}"
+      echo
+    done
+    ;;
+"coverage")
+    OUT=/tmp/cover.out && go fmt ./... && go vet && go test ./... -coverprofile $OUT && go tool cover -html=$OUT
+    ;;
+esac
