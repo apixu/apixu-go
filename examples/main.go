@@ -24,8 +24,11 @@ func main() {
 	current, err := a.GetCurrent(q)
 
 	if err != nil {
-		e := err.(*apixu.Error)
-		log.Fatal(e.Error(), e.Response().Code, e.Response().Message)
+		if e, ok := err.(*apixu.Error); ok {
+			log.Fatal(e.Error(), e.Response().Code, e.Response().Message)
+		}
+
+		log.Fatal(err)
 	}
 
 	loc := current.Location

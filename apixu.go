@@ -2,6 +2,7 @@
 package apixu
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
 
@@ -72,23 +73,28 @@ func (a *apixu) Search(q string) (response.Search, error) {
 var ioutilReadAll = ioutil.ReadAll
 
 // call uses the HTTP Client to call the REST service
-func (a *apixu) call(url string, b interface{}) error {
+func (a *apixu) call(url string, b interface{}) (err error) {
 	res, err := a.httpClient.Get(url)
 	if err != nil {
-		return &Error{err, response.ErrorResponse{}}
+		return fmt.Errorf("cannot call service (%s)", err)
 	}
 
 	body, err := ioutilReadAll(res.Body)
-	defer res.Body.Close()
 	if err != nil {
-		return &Error{err, response.ErrorResponse{}}
+		return errors.New("cannot read response")
 	}
+
+	defer func() {
+		if e := res.Body.Close(); e != nil {
+			err = fmt.Errorf("cannot close response body (%s)", e)
+		}
+	}()
 
 	if res.StatusCode >= 400 {
 		apiError := response.Error{}
 		err = a.formatter.Unmarshal(body, &apiError)
 		if err != nil {
-			return &Error{err, response.ErrorResponse{}}
+			return fmt.Errorf("malformed error response (%s)", err)
 		}
 
 		return &Error{
@@ -103,10 +109,10 @@ func (a *apixu) call(url string, b interface{}) error {
 
 	err = a.formatter.Unmarshal(body, &b)
 	if err != nil {
-		return &Error{err, response.ErrorResponse{}}
+		return fmt.Errorf("malformed response (%s)", err)
 	}
 
-	return nil
+	return
 }
 
 // getApiUrl forms the full API url for each request
@@ -123,6 +129,14 @@ func (a *apixu) getAPIURL(r request) string {
 
 // New creates an Apixu package instance
 func New(c Config) (Apixu, error) {
+	if c.Version == "" {
+		return nil, errors.New("api version not specified")
+	}
+
+	if c.APIKey == "" {
+		return nil, errors.New("api key not specified")
+	}
+
 	f, err := formatter.New(c.Format)
 	if err != nil {
 		return nil, err
