@@ -15,8 +15,7 @@ func main() {
 
 	a, err := apixu.New(config)
 	if err != nil {
-		e := err.(*apixu.Error)
-		log.Fatal(e.Error(), e.Response().Code, e.Response().Message)
+		log.Fatal(err)
 	}
 
 	// Current weather

@@ -121,18 +121,18 @@ func (a *apixu) getAPIURL(r request) string {
 	)
 }
 
-// New creates new Apixu package instance
+// New creates an Apixu package instance
 func New(c Config) (Apixu, error) {
-	a := &apixu{}
-
-	formatter, err := formatter.New(c.Format)
+	f, err := formatter.New(c.Format)
 	if err != nil {
-		return a, &Error{err, response.ErrorResponse{}}
+		return nil, err
 	}
 
-	a.config = c
-	a.httpClient = &httpClient{}
-	a.formatter = formatter
+	a := &apixu{
+		config:     c,
+		httpClient: &httpClient{},
+		formatter:  f,
+	}
 
 	return a, nil
 }
