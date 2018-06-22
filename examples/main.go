@@ -1,7 +1,10 @@
 package main
 
-import "log"
-import "github.com/andreiavrammsd/apixu-go"
+import (
+	"log"
+
+	"github.com/andreiavrammsd/apixu-go"
+)
 
 func main() {
 	config := apixu.Config{

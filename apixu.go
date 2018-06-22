@@ -3,9 +3,10 @@ package apixu
 
 import (
 	"fmt"
+	"io/ioutil"
+
 	"github.com/andreiavrammsd/apixu-go/formatter"
 	"github.com/andreiavrammsd/apixu-go/response"
-	"io/ioutil"
 )
 
 const apiURL = "https://api.apixu.com/v%s/%s.%s?key=%s&q=%s"

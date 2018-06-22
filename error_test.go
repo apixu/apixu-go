@@ -2,13 +2,14 @@ package apixu
 
 import (
 	"errors"
+	"testing"
+
 	"github.com/andreiavrammsd/apixu-go/response"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestError(t *testing.T) {
-	text := "Message (1000)"
+	text := "message (1000)"
 	code := uint16(1000)
 	message := "Message"
 
