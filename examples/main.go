@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"github.com/andreiavrammsd/apixu-go"
 )
@@ -10,7 +11,7 @@ func main() {
 	config := apixu.Config{
 		Version: "1",
 		Format:  "json",
-		APIKey:  "<your api key>",
+		APIKey:  os.Getenv("APIXUKEY"),
 	}
 
 	a, err := apixu.New(config)
