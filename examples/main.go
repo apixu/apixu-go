@@ -21,7 +21,7 @@ func main() {
 
 	// Current weather
 	q := "Amsterdam"
-	current, err := a.GetCurrent(q)
+	current, err := a.Current(q)
 
 	if err != nil {
 		if e, ok := err.(*apixu.Error); ok {
@@ -89,7 +89,7 @@ func main() {
 	}
 
 	// Conditions list
-	conditions, err := a.GetConditions()
+	conditions, err := a.Conditions()
 
 	if err != nil {
 		e := err.(*apixu.Error)

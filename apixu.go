@@ -15,8 +15,8 @@ const docWeatherConditionsURL = "https://www.apixu.com/doc/Apixu_weather_conditi
 
 // Apixu defines methods implemented by Apixu weather API
 type Apixu interface {
-	GetConditions() (response.Conditions, error)
-	GetCurrent(q string) (response.CurrentWeather, error)
+	Conditions() (response.Conditions, error)
+	Current(q string) (response.CurrentWeather, error)
 	Search(q string) (response.Search, error)
 }
 
@@ -31,8 +31,8 @@ type request struct {
 	query  string
 }
 
-// GetConditions retrieves the weather conditions list
-func (a *apixu) GetConditions() (response.Conditions, error) {
+// Conditions retrieves the weather conditions list
+func (a *apixu) Conditions() (response.Conditions, error) {
 	url := fmt.Sprintf(docWeatherConditionsURL, a.config.Format)
 	c := response.Conditions{}
 
@@ -41,8 +41,8 @@ func (a *apixu) GetConditions() (response.Conditions, error) {
 	return c, err
 }
 
-// GetCurrent retrieves current weather data
-func (a *apixu) GetCurrent(q string) (response.CurrentWeather, error) {
+// Current retrieves current weather data
+func (a *apixu) Current(q string) (response.CurrentWeather, error) {
 	r := request{
 		"current",
 		q,
