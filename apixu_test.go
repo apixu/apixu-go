@@ -2,26 +2,49 @@ package apixu
 
 import (
 	"fmt"
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 // TestNew
 func TestNew(t *testing.T) {
-	c := Config{}
-	c.Format = "json"
+	c := Config{
+		Version: "1",
+		Format:  "json",
+		APIKey:  "apikey",
+	}
 	a, err := New(c)
 
 	assert.Implements(t, (*Apixu)(nil), a)
 	assert.Nil(t, err)
 }
 
-func TestNewWithError(t *testing.T) {
+func TestNewWithMissingVersion(t *testing.T) {
 	c := Config{}
+	a, err := New(c)
+	assert.Nil(t, a)
+	assert.NotNil(t, err)
+}
+
+func TestNewWithMissingAPIKey(t *testing.T) {
+	c := Config{
+		Version: "1",
+	}
+	a, err := New(c)
+	assert.Nil(t, a)
+	assert.NotNil(t, err)
+}
+
+func TestNewWithUnknownFormat(t *testing.T) {
+	c := Config{
+		Version: "1",
+		APIKey:  "apikey",
+	}
 	c.Format = "unknown format"
 	a, err := New(c)
 
-	assert.Implements(t, (*Apixu)(nil), a)
+	assert.Nil(t, a)
 	assert.NotNil(t, err)
 }
 
