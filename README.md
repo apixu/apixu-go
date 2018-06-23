@@ -18,17 +18,11 @@ For more details of an API method error, assert it to the [apixu.Error](./error.
 | Method | Implemented
 | :-   | :-
 | Current weather | yes
-| Forecast | no
+| Forecast | yes
 | Search or Autocomplete | yes
 | History | no
 | Conditions list | yes
 
-## Testing
+## Testing and QA tools for development
 
-OUT=/tmp/cover.out && go fmt ./... && go vet && go test ./... -coverprofile $OUT && go tool cover -html=$OUT
-
-## Lint
-
-go get -u golang.org/x/lint/golint
-
-golint ./...
+See [qa](./qa) file.

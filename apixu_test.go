@@ -110,7 +110,7 @@ func TestApixu_Conditions(t *testing.T) {
       		"night":"Partly cloudy",
       		"icon":116
    		}
-		]`)
+	]`)
 	ioutilReadAll = func(r io.Reader) ([]byte, error) {
 		return data, nil
 	}
@@ -136,43 +136,43 @@ func TestApixu_Current(t *testing.T) {
 	}
 
 	data := []byte(`{  
-   "location":{  
-      "name":"Amsterdam",
-      "region":"North Holland",
-      "country":"Netherlands",
-      "lat":52.37,
-      "lon":4.89,
-      "tz_id":"Europe/Amsterdam",
-      "localtime_epoch":1529746782,
-      "localtime":"2018-06-23 11:39"
-   },
-   "current":{  
-      "last_updated_epoch":1529746209,
-      "last_updated":"2018-06-23 11:30",
-      "temp_c":15.0,
-      "temp_f":59.0,
-      "is_day":1,
-      "condition":{  
-         "text":"Partly cloudy",
-         "icon":"//cdn.apixu.com/weather/64x64/day/116.png",
-         "code":1003
-      },
-      "wind_mph":9.4,
-      "wind_kph":15.1,
-      "wind_degree":320,
-      "wind_dir":"NW",
-      "pressure_mb":1027.0,
-      "pressure_in":30.8,
-      "precip_mm":0.1,
-      "precip_in":0.0,
-      "humidity":72,
-      "cloud":75,
-      "feelslike_c":14.1,
-      "feelslike_f":57.3,
-      "vis_km":10.0,
-      "vis_miles":6.0
-   }
-}`)
+	   "location":{  
+	      "name":"Amsterdam",
+	      "region":"North Holland",
+	      "country":"Netherlands",
+	      "lat":52.37,
+	      "lon":4.89,
+	      "tz_id":"Europe/Amsterdam",
+	      "localtime_epoch":1529746782,
+	      "localtime":"2018-06-23 11:39"
+	   },
+	   "current":{  
+	      "last_updated_epoch":1529746209,
+	      "last_updated":"2018-06-23 11:30",
+	      "temp_c":15.0,
+	      "temp_f":59.0,
+	      "is_day":1,
+	      "condition":{  
+		 "text":"Partly cloudy",
+		 "icon":"//cdn.apixu.com/weather/64x64/day/116.png",
+		 "code":1003
+	      },
+	      "wind_mph":9.4,
+	      "wind_kph":15.1,
+	      "wind_degree":320,
+	      "wind_dir":"NW",
+	      "pressure_mb":1027.0,
+	      "pressure_in":30.8,
+	      "precip_mm":0.1,
+	      "precip_in":0.0,
+	      "humidity":72,
+	      "cloud":75,
+	      "feelslike_c":14.1,
+	      "feelslike_f":57.3,
+	      "vis_km":10.0,
+	      "vis_miles":6.0
+	   }
+	}`)
 	ioutilReadAll = func(r io.Reader) ([]byte, error) {
 		return data, nil
 	}
@@ -183,6 +183,103 @@ func TestApixu_Current(t *testing.T) {
 	}
 
 	r, err := a.Current("query")
+	assert.Equal(t, *expected, r)
+	assert.NoError(t, err)
+}
+
+func TestApixu_Forecast(t *testing.T) {
+	c := Config{}
+	f := &jsonFormatterMock{}
+
+	a := &apixu{
+		config:     c,
+		httpClient: &httpClientMock{},
+		formatter:  f,
+	}
+
+	data := []byte(`{  
+	   "location":{  
+	      "name":"Paris",
+	      "region":"Ile-de-France",
+	      "country":"France",
+	      "lat":48.87,
+	      "lon":2.33,
+	      "tz_id":"Europe/Paris",
+	      "localtime_epoch":1529782822,
+	      "localtime":"2018-06-23 21:40"
+	   },
+	   "current":{  
+	      "last_updated_epoch":1529782208,
+	      "last_updated":"2018-06-23 21:30",
+	      "temp_c":19.0,
+	      "temp_f":66.2,
+	      "is_day":1,
+	      "condition":{  
+		 "text":"Sunny",
+		 "icon":"//cdn.apixu.com/weather/64x64/day/113.png",
+		 "code":1000
+	      },
+	      "wind_mph":9.4,
+	      "wind_kph":15.1,
+	      "wind_degree":50,
+	      "wind_dir":"NE",
+	      "pressure_mb":1025.0,
+	      "pressure_in":30.8,
+	      "precip_mm":0.0,
+	      "precip_in":0.0,
+	      "humidity":49,
+	      "cloud":0,
+	      "feelslike_c":19.0,
+	      "feelslike_f":66.2,
+	      "vis_km":10.0,
+	      "vis_miles":6.0
+	   },
+	   "forecast":{  
+	      "forecastday":[  
+		 {  
+		    "date":"2018-06-23",
+		    "date_epoch":1529712000,
+		    "day":{  
+		       "maxtemp_c":22.3,
+		       "maxtemp_f":72.1,
+		       "mintemp_c":14.8,
+		       "mintemp_f":58.6,
+		       "avgtemp_c":17.3,
+		       "avgtemp_f":63.1,
+		       "maxwind_mph":8.5,
+		       "maxwind_kph":13.7,
+		       "totalprecip_mm":0.0,
+		       "totalprecip_in":0.0,
+		       "avgvis_km":18.8,
+		       "avgvis_miles":11.0,
+		       "avghumidity":51.0,
+		       "condition":{  
+		          "text":"Partly cloudy",
+		          "icon":"//cdn.apixu.com/weather/64x64/day/116.png",
+		          "code":1003
+		       },
+		       "uv":7.5
+		    },
+		    "astro":{  
+		       "sunrise":"05:48 AM",
+		       "sunset":"09:58 PM",
+		       "moonrise":"05:11 PM",
+		       "moonset":"03:21 AM"
+		    }
+		 }
+	      ]
+	   }
+	}`)
+	ioutilReadAll = func(r io.Reader) ([]byte, error) {
+		return data, nil
+	}
+
+	expected := &response.Forecast{}
+	if err := f.Unmarshal(data, expected); err != nil {
+		assert.Fail(t, err.Error())
+	}
+
+	r, err := a.Forecast("query")
 	assert.Equal(t, *expected, r)
 	assert.NoError(t, err)
 }
@@ -198,24 +295,24 @@ func TestApixu_Search(t *testing.T) {
 	}
 
 	data := []byte(`[  
-   {  
-      "id":3332210,
-      "name":"Amsterdam, North Holland, Netherlands",
-      "region":"North Holland",
-      "country":"Netherlands",
-      "lat":52.37,
-      "lon":4.89,
-      "url":"amsterdam-north-holland-netherlands"
-   },
-   {  
-      "id":3332149,
-      "name":"De Wallen, North Holland, Netherlands",
-      "region":"North Holland",
-      "country":"Netherlands",
-      "lat":52.37,
-      "lon":4.9,
-      "url":"de-wallen-north-holland-netherlands"
-   }]`)
+	   {  
+	      "id":3332210,
+	      "name":"Amsterdam, North Holland, Netherlands",
+	      "region":"North Holland",
+	      "country":"Netherlands",
+	      "lat":52.37,
+	      "lon":4.89,
+	      "url":"amsterdam-north-holland-netherlands"
+	   },
+	   {  
+	      "id":3332149,
+	      "name":"De Wallen, North Holland, Netherlands",
+	      "region":"North Holland",
+	      "country":"Netherlands",
+	      "lat":52.37,
+	      "lon":4.9,
+	      "url":"de-wallen-north-holland-netherlands"
+	   }]`)
 	ioutilReadAll = func(r io.Reader) ([]byte, error) {
 		return data, nil
 	}

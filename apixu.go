@@ -17,6 +17,7 @@ const docWeatherConditionsURL = "https://www.apixu.com/doc/Apixu_weather_conditi
 type Apixu interface {
 	Conditions() (response.Conditions, error)
 	Current(q string) (response.CurrentWeather, error)
+	Forecast(q string) (response.Forecast, error)
 	Search(q string) (response.Search, error)
 }
 
@@ -48,11 +49,25 @@ func (a *apixu) Current(q string) (response.CurrentWeather, error) {
 		q,
 	}
 	url := a.getAPIURL(r)
-	w := response.CurrentWeather{}
+	res := response.CurrentWeather{}
 
-	err := a.call(url, &w)
+	err := a.call(url, &res)
 
-	return w, err
+	return res, err
+}
+
+// Forecast retrieves weather forecast by query
+func (a *apixu) Forecast(q string) (response.Forecast, error) {
+	r := request{
+		"forecast",
+		q,
+	}
+	url := a.getAPIURL(r)
+	res := response.Forecast{}
+
+	err := a.call(url, &res)
+
+	return res, err
 }
 
 // Search finds cities and towns matching your query (autocomplete)
@@ -62,12 +77,11 @@ func (a *apixu) Search(q string) (response.Search, error) {
 		q,
 	}
 	url := a.getAPIURL(r)
+	res := response.Search{}
 
-	s := response.Search{}
+	err := a.call(url, &res)
 
-	err := a.call(url, &s)
-
-	return s, err
+	return res, err
 }
 
 var ioutilReadAll = ioutil.ReadAll
