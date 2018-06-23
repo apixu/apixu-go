@@ -17,7 +17,7 @@ const docWeatherConditionsURL = "https://www.apixu.com/doc/Apixu_weather_conditi
 type Apixu interface {
 	Conditions() (response.Conditions, error)
 	Current(q string) (response.CurrentWeather, error)
-	Forecast(q string) (response.Forecast, error)
+	Forecast(q string, days int) (response.Forecast, error)
 	Search(q string) (response.Search, error)
 }
 
@@ -61,12 +61,12 @@ func (a *apixu) Current(q string) (response.CurrentWeather, error) {
 }
 
 // Forecast retrieves weather forecast by query
-func (a *apixu) Forecast(q string) (response.Forecast, error) {
+func (a *apixu) Forecast(q string, days int) (response.Forecast, error) {
 	r := request{
 		"forecast",
 		q,
 	}
-	url := a.getAPIURL(r)
+	url := a.getAPIURL(r) + fmt.Sprintf("&days=%d", days)
 	res := response.Forecast{}
 
 	err := a.call(url, &res)

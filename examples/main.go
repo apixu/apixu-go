@@ -73,7 +73,8 @@ func main() {
 
 	// Weather forecast
 	q = "Rome"
-	forecast, err := a.Forecast(q)
+	days := 5
+	forecast, err := a.Forecast(q, days)
 
 	if err != nil {
 		if e, ok := err.(*apixu.Error); ok {

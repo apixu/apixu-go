@@ -279,7 +279,7 @@ func TestApixu_Forecast(t *testing.T) {
 		assert.Fail(t, err.Error())
 	}
 
-	r, err := a.Forecast("query")
+	r, err := a.Forecast("query", 2)
 	assert.Equal(t, *expected, r)
 	assert.NoError(t, err)
 }
