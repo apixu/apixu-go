@@ -24,7 +24,7 @@ type xmlFormatter struct {
 }
 
 func (f *xmlFormatter) Unmarshal(data []byte, object interface{}) error {
-	return xml.Unmarshal(data, &object)
+	return xml.Unmarshal(data, object)
 }
 
 // New returns formatter instance based on specified format type (JSON or XML)
