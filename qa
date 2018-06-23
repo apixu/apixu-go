@@ -24,7 +24,6 @@ case "$cmd" in
 *)
     tools=(
         "go fmt ./..."
-        "goimports . > /dev/null"
         "go vet ./..."
         "go test ./..."
         "golint ./..."
