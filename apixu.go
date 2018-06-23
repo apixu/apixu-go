@@ -34,6 +34,10 @@ type request struct {
 
 // Conditions retrieves the weather conditions list
 func (a *apixu) Conditions() (response.Conditions, error) {
+	if a.config.Format == "xml" {
+		return response.Conditions{}, errors.New("not implemented for xml format")
+	}
+
 	url := fmt.Sprintf(docWeatherConditionsURL, a.config.Format)
 	c := response.Conditions{}
 
@@ -72,6 +76,10 @@ func (a *apixu) Forecast(q string) (response.Forecast, error) {
 
 // Search finds cities and towns matching your query (autocomplete)
 func (a *apixu) Search(q string) (response.Search, error) {
+	if a.config.Format == "xml" {
+		return response.Search{}, errors.New("not implemented for xml format")
+	}
+
 	r := request{
 		"search",
 		q,
