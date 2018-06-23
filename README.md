@@ -19,9 +19,9 @@ For more details of an API method error, assert it to the [apixu.Error](./error.
 | :-   | :-
 | Current weather | yes
 | Forecast | yes
-| Search or Autocomplete | yes
+| Search or Autocomplete | yes (json only)
 | History | no
-| Conditions list | yes
+| Conditions list | yes (json only)
 
 ## Testing and QA tools for development
 
