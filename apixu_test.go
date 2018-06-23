@@ -17,14 +17,14 @@ func TestNew(t *testing.T) {
 	a, err := New(c)
 
 	assert.Implements(t, (*Apixu)(nil), a)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 }
 
 func TestNewWithMissingVersion(t *testing.T) {
 	c := Config{}
 	a, err := New(c)
 	assert.Nil(t, a)
-	assert.NotNil(t, err)
+	assert.Error(t, err)
 }
 
 func TestNewWithMissingAPIKey(t *testing.T) {
@@ -33,19 +33,19 @@ func TestNewWithMissingAPIKey(t *testing.T) {
 	}
 	a, err := New(c)
 	assert.Nil(t, a)
-	assert.NotNil(t, err)
+	assert.Error(t, err)
 }
 
 func TestNewWithUnknownFormat(t *testing.T) {
 	c := Config{
 		Version: "1",
 		APIKey:  "apikey",
+		Format:  "txt",
 	}
-	c.Format = "unknown format"
 	a, err := New(c)
 
 	assert.Nil(t, a)
-	assert.NotNil(t, err)
+	assert.Error(t, err)
 }
 
 // TestGetApiUrl
