@@ -121,7 +121,7 @@ func (a *apixu) call(url string, b interface{}) (err error) {
 		}
 	}
 
-	err = a.formatter.Unmarshal(body, &b)
+	err = a.formatter.Unmarshal(body, b)
 	if err != nil {
 		return fmt.Errorf("malformed response (%s)", err)
 	}
