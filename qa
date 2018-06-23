@@ -30,6 +30,6 @@ case "$cmd" in
     done
     ;;
 "coverage")
-    OUT=/tmp/cover.out && go fmt ./... && go vet && go test ./... -coverprofile $OUT && go tool cover -html=$OUT
+    OUT=/tmp/cover.out && go test ./... -coverprofile $OUT && go tool cover -html=$OUT
     ;;
 esac
