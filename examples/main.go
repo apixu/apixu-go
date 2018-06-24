@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"github.com/andreiavrammsd/apixu-go"
 )
@@ -196,4 +197,98 @@ func main() {
 		fmt.Println("\tIcon:", c.Icon)
 		fmt.Println()
 	}
+
+	// History
+	history, err := a.History("London", time.Now())
+	if err != nil {
+		if e, ok := err.(*apixu.Error); ok {
+			log.Fatal(e.Error(), e.Response().Code, e.Response().Message)
+		}
+		log.Fatal(err)
+	}
+
+	fmt.Println("History")
+	fmt.Println()
+
+	loc = history.Location
+	fmt.Println("\tLocation")
+	fmt.Println("\t\tName:", loc.Name)
+	fmt.Println("\t\tRegion:", loc.Region)
+	fmt.Println("\t\tCountry:", loc.Country)
+	fmt.Println("\t\tLat:", loc.Lat)
+	fmt.Println("\t\tLon:", loc.Lon)
+	fmt.Println("\t\tTimezone:", loc.Timezone)
+	fmt.Println("\t\tLocaltimeEpoch:", loc.LocalTimeEpoch)
+	fmt.Println("\t\tLocaltime:", loc.LocalTime)
+
+	fmt.Println("\n\tForecast Day")
+	for _, fc := range history.Forecast.ForecastDay {
+		fmt.Println("\t\tDate:", fc.Date)
+		fmt.Println("\t\tDateEpoch:", fc.DateEpoch)
+		fmt.Println("\t\tDay")
+		fmt.Println("\t\t\tMaxTempCelsius:", fc.Day.MaxTempCelsius)
+		fmt.Println("\t\t\tMaxTempFahrenheit:", fc.Day.MaxTempFahrenheit)
+		fmt.Println("\t\t\tMinTempCelsius:", fc.Day.MinTempCelsius)
+		fmt.Println("\t\t\tMinTempFahrenheit:", fc.Day.MinTempFahrenheit)
+		fmt.Println("\t\t\tAvgTempCelsius:", fc.Day.AvgTempCelsius)
+		fmt.Println("\t\t\tAvgTempFahrenheit:", fc.Day.AvgTempFahrenheit)
+		fmt.Println("\t\t\tMaxWindMPH:", fc.Day.MaxWindMPH)
+		fmt.Println("\t\t\tMaxWindKMH:", fc.Day.MaxWindKMH)
+		fmt.Println("\t\t\tTotalPrecipMM:", fc.Day.TotalPrecipMM)
+		fmt.Println("\t\t\tTotalPrecipIN:", fc.Day.TotalPrecipIN)
+		fmt.Println("\t\t\tVisKM:", fc.Day.AvgVisKM)
+		fmt.Println("\t\t\tVisMiles:", fc.Day.AvgVisMiles)
+		fmt.Println("\t\t\tAvgHumidity:", fc.Day.AvgHumidity)
+		fmt.Println("\t\t\tCondition")
+		fmt.Println("\t\t\t\tText:", fc.Day.Condition.Text)
+		fmt.Println("\t\t\t\tIcon:", fc.Day.Condition.Icon)
+		fmt.Println("\t\t\t\tCode:", fc.Day.Condition.Code)
+		fmt.Println("\t\t\tUV:", fc.Day.UV)
+		fmt.Println("\t\tAstro")
+		fmt.Println("\t\t\tSunrise:", fc.Astro.Sunrise)
+		fmt.Println("\t\t\tSunset:", fc.Astro.Sunset)
+		fmt.Println("\t\t\tMoonrise:", fc.Astro.Moonrise)
+		fmt.Println("\t\t\tMoonset:", fc.Astro.Moonset)
+
+		fmt.Println("\t\tHour:")
+		for _, fch := range fc.Hour {
+			fmt.Println("\t\t\t\tTimeEpoch:", fch.TimeEpoch)
+			fmt.Println("\t\t\t\tTime:", fch.Time)
+			fmt.Println("\t\t\t\tTempCelsius:", fch.TempCelsius)
+			fmt.Println("\t\t\t\tTempFahrenheit:", fch.TempFahrenheit)
+			fmt.Println("\t\t\t\tIsDay:", fch.IsDay)
+			fmt.Println("\t\t\t\tCondition")
+			fmt.Println("\t\t\t\t\tText:", fch.Condition.Text)
+			fmt.Println("\t\t\t\t\tIcon:", fch.Condition.Icon)
+			fmt.Println("\t\t\t\t\tCode:", fch.Condition.Code)
+			fmt.Println("\t\t\t\tWindMPH:", fch.WindMPH)
+			fmt.Println("\t\t\t\tWindKMH:", fch.WindKMH)
+			fmt.Println("\t\t\t\tWindDegree:", fch.WindDegree)
+			fmt.Println("\t\t\t\tWindDirection:", fch.WindDirection)
+			fmt.Println("\t\t\t\tPressureMB:", fch.PressureMB)
+			fmt.Println("\t\t\t\tPressureIN:", fch.PressureIN)
+			fmt.Println("\t\t\t\tPrecipMM:", fch.PrecipMM)
+			fmt.Println("\t\t\t\tPrecipIN:", fch.PrecipIN)
+			fmt.Println("\t\t\t\tHumidity:", fch.Humidity)
+			fmt.Println("\t\t\t\tCloud:", fch.Cloud)
+			fmt.Println("\t\t\t\tFeelsLikeCelsius:", fch.FeelsLikeCelsius)
+			fmt.Println("\t\t\t\tFeelsLikeFahrenheit:", fch.FeelsLikeFahrenheit)
+			fmt.Println("\t\t\t\tWindChillCelsius:", fch.WindChillCelsius)
+			fmt.Println("\t\t\t\tWindChillFahrenheit:", fch.WindChillFahrenheit)
+			fmt.Println("\t\t\t\tHeatIndexCelsius:", fch.HeatIndexCelsius)
+			fmt.Println("\t\t\t\tHeatIndexFahrenheit:", fch.HeatIndexFahrenheit)
+			fmt.Println("\t\t\t\tDewPointCelsius:", fch.DewPointCelsius)
+			fmt.Println("\t\t\t\tDewPointFahrenheit:", fch.DewPointFahrenheit)
+			fmt.Println("\t\t\t\tWillItRain:", fch.WillItRain)
+			fmt.Println("\t\t\t\tChanceOfRain:", fch.ChanceOfRain)
+			fmt.Println("\t\t\t\tWillItSnow:", fch.WillItSnow)
+			fmt.Println("\t\t\t\tChanceOfSnow:", fch.ChanceOfSnow)
+			fmt.Println("\t\t\t\tVisKM:", fch.VisKM)
+			fmt.Println("\t\t\t\tVisMiles:", fch.VisMiles)
+			fmt.Println()
+		}
+
+		fmt.Println()
+	}
+
 }

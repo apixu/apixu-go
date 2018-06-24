@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"time"
 
 	"github.com/andreiavrammsd/apixu-go/formatter"
 	"github.com/andreiavrammsd/apixu-go/response"
@@ -19,6 +20,7 @@ type Apixu interface {
 	Current(q string) (response.CurrentWeather, error)
 	Forecast(q string, days int) (response.Forecast, error)
 	Search(q string) (response.Search, error)
+	History(q string, since time.Time) (response.History, error)
 }
 
 type apixu struct {
@@ -86,6 +88,20 @@ func (a *apixu) Search(q string) (response.Search, error) {
 	}
 	url := a.getAPIURL(r)
 	res := response.Search{}
+
+	err := a.call(url, &res)
+
+	return res, err
+}
+
+// History retrieves historical weather info
+func (a *apixu) History(q string, since time.Time) (response.History, error) {
+	r := request{
+		"history",
+		q,
+	}
+	url := a.getAPIURL(r) + fmt.Sprintf("&dt=%s", since.Format("2006-01-02"))
+	res := response.History{}
 
 	err := a.call(url, &res)
 
