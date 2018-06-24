@@ -11,7 +11,7 @@ import (
 func main() {
 	config := apixu.Config{
 		Version: "1",
-		Format:  "json",
+		Format:  "xml",
 		APIKey:  os.Getenv("APIXUKEY"),
 	}
 
