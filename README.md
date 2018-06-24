@@ -4,9 +4,10 @@ Go package for [Apixu Weather API](https://www.apixu.com/api.aspx)
 
 ## Usage
 
-See the [examples](./examples/main.go) and run them with: APIXUKEY=yourapikey go run examples/main.go
+See the [examples](./examples) and run them with: APIXUKEY=yourapikey go run examples/<file>.go
 
 ## Install
+
 go get -t ./...
 
 ## Error handling
