@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"net/url"
 	"strings"
 	"time"
 
@@ -37,8 +38,8 @@ type request struct {
 
 // Conditions retrieves the weather conditions list
 func (a *apixu) Conditions() (res response.Conditions, err error) {
-	url := fmt.Sprintf(docWeatherConditionsURL, a.config.Format)
-	err = a.call(url, &res)
+	u := fmt.Sprintf(docWeatherConditionsURL, a.config.Format)
+	err = a.call(u, &res)
 	return
 }
 
@@ -52,11 +53,10 @@ func (a *apixu) Current(q string) (res response.CurrentWeather, err error) {
 		"current",
 		q,
 	}
-	url := a.getAPIURL(r)
+	u := a.getAPIURL(r)
 
-	err = a.call(url, &res)
-
-	return res, err
+	err = a.call(u, &res)
+	return
 }
 
 // Forecast retrieves weather forecast by query
@@ -69,10 +69,9 @@ func (a *apixu) Forecast(q string, days int) (res response.Forecast, err error) 
 		"forecast",
 		q,
 	}
-	url := a.getAPIURL(r) + fmt.Sprintf("&days=%d", days)
+	u := a.getAPIURL(r) + fmt.Sprintf("&days=%d", days)
 
-	err = a.call(url, &res)
-
+	err = a.call(u, &res)
 	return
 }
 
@@ -86,10 +85,9 @@ func (a *apixu) Search(q string) (res response.Search, err error) {
 		"search",
 		q,
 	}
-	url := a.getAPIURL(r)
+	u := a.getAPIURL(r)
 
-	err = a.call(url, &res)
-
+	err = a.call(u, &res)
 	return
 }
 
@@ -103,10 +101,9 @@ func (a *apixu) History(q string, since time.Time) (res response.History, err er
 		"history",
 		q,
 	}
-	url := a.getAPIURL(r) + fmt.Sprintf("&dt=%s", since.Format("2006-01-02"))
+	u := a.getAPIURL(r) + fmt.Sprintf("&dt=%s", since.Format("2006-01-02"))
 
-	err = a.call(url, &res)
-
+	err = a.call(u, &res)
 	return
 }
 
@@ -170,7 +167,7 @@ func (a *apixu) getAPIURL(r request) string {
 		r.method,
 		a.config.Format,
 		a.config.APIKey,
-		r.query,
+		url.QueryEscape(r.query),
 	)
 }
 

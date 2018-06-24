@@ -20,7 +20,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	q := "Bouscat"
+	q := "Bouscat Aquitaine"
 	search, err := a.Search(q)
 
 	if err != nil {
