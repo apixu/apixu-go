@@ -1,0 +1,14 @@
+[
+    {
+        "code":1000,
+        "day":"Sunny",
+        "night":"Clear",
+        "icon":113
+    },
+    {
+        "code":1003,
+        "day":"Partly cloudy",
+        "night":"Partly cloudy",
+        "icon":116
+    }
+]

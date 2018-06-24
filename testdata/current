@@ -1,0 +1,38 @@
+{
+   "location":{
+      "name":"Amsterdam",
+      "region":"North Holland",
+      "country":"Netherlands",
+      "lat":52.37,
+      "lon":4.89,
+      "tz_id":"Europe/Amsterdam",
+      "localtime_epoch":1529746782,
+      "localtime":"2018-06-23 11:39"
+   },
+   "current":{
+      "last_updated_epoch":1529746209,
+      "last_updated":"2018-06-23 11:30",
+      "temp_c":15.0,
+      "temp_f":59.0,
+      "is_day":1,
+      "condition":{
+     "text":"Partly cloudy",
+     "icon":"//cdn.apixu.com/weather/64x64/day/116.png",
+     "code":1003
+      },
+      "wind_mph":9.4,
+      "wind_kph":15.1,
+      "wind_degree":320,
+      "wind_dir":"NW",
+      "pressure_mb":1027.0,
+      "pressure_in":30.8,
+      "precip_mm":0.1,
+      "precip_in":0.0,
+      "humidity":72,
+      "cloud":75,
+      "feelslike_c":14.1,
+      "feelslike_f":57.3,
+      "vis_km":10.0,
+      "vis_miles":6.0
+   }
+}

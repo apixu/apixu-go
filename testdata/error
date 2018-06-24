@@ -1,0 +1,6 @@
+{
+    "error":{
+        "code":1005,
+        "message":"API URL is invalid."
+    }
+}

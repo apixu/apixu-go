@@ -1,0 +1,19 @@
+[
+   {
+      "id":3332210,
+      "name":"Amsterdam, North Holland, Netherlands",
+      "region":"North Holland",
+      "country":"Netherlands",
+      "lat":52.37,
+      "lon":4.89,
+      "url":"amsterdam-north-holland-netherlands"
+   },
+   {
+      "id":3332149,
+      "name":"De Wallen, North Holland, Netherlands",
+      "region":"North Holland",
+      "country":"Netherlands",
+      "lat":52.37,
+      "lon":4.9,
+      "url":"de-wallen-north-holland-netherlands"
+}]
