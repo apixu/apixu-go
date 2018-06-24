@@ -2,7 +2,8 @@
 
 cmd=$1
 
-pkg=". github.com/andreiavrammsd/apixu-go/formatter github.com/andreiavrammsd/apixu-go/response"
+base="github.com/andreiavrammsd/apixu-go"
+pkg=". ${base}/formatter ${base}/response ${base}/types"
 
 case "${cmd}" in
 "install")

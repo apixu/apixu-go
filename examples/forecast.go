@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"github.com/andreiavrammsd/apixu-go"
 )
@@ -40,14 +41,14 @@ func main() {
 	fmt.Println("\tLon:", loc.Lon)
 	fmt.Println("\tTimezone:", loc.Timezone)
 	fmt.Println("\tLocaltimeEpoch:", loc.LocalTimeEpoch)
-	fmt.Println("\tLocaltime:", loc.LocalTime)
+	fmt.Println("\tLocaltime:", time.Time(loc.LocalTime).String())
 
 	curr := forecast.Current
 	fmt.Println("Current")
 	fmt.Println("\tLastUpdatedEpoch:", curr.LastUpdatedEpoch)
-	fmt.Println("\tLastUpdated:", curr.LastUpdated)
+	fmt.Println("\tLastUpdated:", time.Time(curr.LastUpdated).String())
 	fmt.Println("\tTempCelsius:", curr.TempCelsius)
-	fmt.Println("\tTempFahrenheit: ", curr.TempFahrenheit)
+	fmt.Println("\tTempFahrenheit:", curr.TempFahrenheit)
 	fmt.Println("\tIsDay:", curr.IsDay)
 	fmt.Println("\tCondition")
 	fmt.Println("\t\tText:", curr.Condition.Text)
@@ -71,7 +72,7 @@ func main() {
 	fcast := forecast.Forecast.ForecastDay
 	fmt.Println("Forecast Day")
 	for _, fc := range fcast {
-		fmt.Println("\tDate:", fc.Date)
+		fmt.Println("\tDate:", time.Time(fc.Date).String())
 		fmt.Println("\tDateEpoch:", fc.DateEpoch)
 		fmt.Println("\tDay")
 		fmt.Println("\t\tMaxTempCelsius:", fc.Day.MaxTempCelsius)

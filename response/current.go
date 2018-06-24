@@ -1,12 +1,14 @@
 package response
 
+import "github.com/andreiavrammsd/apixu-go/types"
+
 // Current defines the current weather info
 type Current struct {
-	LastUpdatedEpoch    int32            `json:"last_updated_epoch" xml:"last_updated_epoch"`
-	LastUpdated         string           `json:"last_updated" xml:"last_updated"`
+	LastUpdatedEpoch    int              `json:"last_updated_epoch" xml:"last_updated_epoch"`
+	LastUpdated         types.DateTime   `json:"last_updated" xml:"last_updated"`
 	TempCelsius         float64          `json:"temp_c" xml:"temp_c"`
 	TempFahrenheit      float64          `json:"temp_f" xml:"temp_f"`
-	IsDay               IntToBool        `json:"is_day" xml:"is_day"`
+	IsDay               types.Bool       `json:"is_day" xml:"is_day"`
 	Condition           CurrentCondition `json:"condition" xml:"condition"`
 	WindMPH             float64          `json:"wind_mph" xml:"wind_mph"`
 	WindKMH             float64          `json:"wind_kph" xml:"wind_kph"`

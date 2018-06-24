@@ -1,5 +1,7 @@
 package response
 
+import "github.com/andreiavrammsd/apixu-go/types"
+
 // Forecast defines the weather forecast response
 type Forecast struct {
 	Location Location        `json:"location" xml:"location"`
@@ -10,8 +12,8 @@ type Forecast struct {
 // ForecastWeather holds the forecast data
 type ForecastWeather struct {
 	ForecastDay []struct {
-		Date      string `json:"date" xml:"date"`
-		DateEpoch int    `json:"date_epoch" xml:"date_epoch"`
+		Date      types.DateTime `json:"date" xml:"date"`
+		DateEpoch int            `json:"date_epoch" xml:"date_epoch"`
 		Day       struct {
 			MaxTempCelsius    float64          `json:"maxtemp_c" xml:"maxtemp_c"`
 			MaxTempFahrenheit float64          `json:"maxtemp_f" xml:"maxtemp_f"`
@@ -37,10 +39,10 @@ type ForecastWeather struct {
 		} `json:"astro" xml:"astro"`
 		Hour []struct {
 			TimeEpoch           int              `json:"time_epoch" xml:"time_epoch"`
-			Time                string           `json:"time" xml:"time"`
+			Time                types.DateTime   `json:"time" xml:"time"`
 			TempCelsius         float64          `json:"temp_c" xml:"temp_c"`
 			TempFahrenheit      float64          `json:"temp_f" xml:"temp_f"`
-			IsDay               IntToBool        `json:"is_day" xml:"is_day"`
+			IsDay               types.Bool       `json:"is_day" xml:"is_day"`
 			Condition           CurrentCondition `json:"condition" xml:"condition"`
 			WindMPH             float64          `json:"wind_mph" xml:"wind_mph"`
 			WindKMH             float64          `json:"wind_kph" xml:"wind_kph"`
@@ -60,9 +62,9 @@ type ForecastWeather struct {
 			HeatIndexFahrenheit float64          `json:"heatindex_f" xml:"heatindex_f"`
 			DewPointCelsius     float64          `json:"dewpoint_c" xml:"dewpoint_c"`
 			DewPointFahrenheit  float64          `json:"dewpoint_f" xml:"dewpoint_f"`
-			WillItRain          IntToBool        `json:"will_it_rain" xml:"will_it_rain"`
+			WillItRain          types.Bool       `json:"will_it_rain" xml:"will_it_rain"`
 			ChanceOfRain        string           `json:"chance_of_rain" xml:"chance_of_rain"`
-			WillItSnow          IntToBool        `json:"will_it_snow" xml:"will_it_snow"`
+			WillItSnow          types.Bool       `json:"will_it_snow" xml:"will_it_snow"`
 			ChanceOfSnow        string           `json:"chance_of_snow" xml:"chance_of_snow"`
 			VisKM               float64          `json:"vis_km" xml:"vis_km"`
 			VisMiles            float64          `json:"vis_miles" xml:"vis_miles"`

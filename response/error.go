@@ -1,8 +1,6 @@
 package response
 
-import (
-	"encoding/xml"
-)
+import "encoding/xml"
 
 // Error offers error info received from the API
 type Error struct {

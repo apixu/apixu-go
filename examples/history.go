@@ -12,7 +12,7 @@ import (
 func main() {
 	config := apixu.Config{
 		Version: "1",
-		Format:  "json",
+		Format:  "xml",
 		APIKey:  os.Getenv("APIXUKEY"),
 	}
 
@@ -21,7 +21,9 @@ func main() {
 		log.Fatal(err)
 	}
 
-	history, err := a.History("London", time.Now())
+	q := "London"
+	since := time.Now()
+	history, err := a.History(q, since)
 	if err != nil {
 		if e, ok := err.(*apixu.Error); ok {
 			log.Fatal(e.Error(), e.Response().Code, e.Response().Message)
@@ -38,11 +40,11 @@ func main() {
 	fmt.Println("\tLon:", loc.Lon)
 	fmt.Println("\tTimezone:", loc.Timezone)
 	fmt.Println("\tLocaltimeEpoch:", loc.LocalTimeEpoch)
-	fmt.Println("\tLocaltime:", loc.LocalTime)
+	fmt.Println("\tLocaltime:", time.Time(loc.LocalTime).String())
 
 	fmt.Println("\nForecast Day")
 	for _, fc := range history.Forecast.ForecastDay {
-		fmt.Println("\tDate:", fc.Date)
+		fmt.Println("\tDate:", time.Time(fc.Date).String())
 		fmt.Println("\tDateEpoch:", fc.DateEpoch)
 		fmt.Println("\tDay")
 		fmt.Println("\t\tMaxTempCelsius:", fc.Day.MaxTempCelsius)
@@ -72,7 +74,7 @@ func main() {
 		fmt.Println("\t\tHour:")
 		for _, fch := range fc.Hour {
 			fmt.Println("\t\t\tTimeEpoch:", fch.TimeEpoch)
-			fmt.Println("\t\t\tTime:", fch.Time)
+			fmt.Println("\t\t\tTime:", time.Time(fch.Time).String())
 			fmt.Println("\t\t\tTempCelsius:", fch.TempCelsius)
 			fmt.Println("\t\t\tTempFahrenheit:", fch.TempFahrenheit)
 			fmt.Println("\t\t\tIsDay:", fch.IsDay)
