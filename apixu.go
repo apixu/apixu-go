@@ -13,8 +13,11 @@ import (
 	"github.com/andreiavrammsd/apixu-go/response"
 )
 
-const apiURL = "https://api.apixu.com/v%s/%s.%s?key=%s&q=%s"
-const docWeatherConditionsURL = "https://www.apixu.com/doc/Apixu_weather_conditions.%s"
+const (
+	apiURL                  = "https://api.apixu.com/v%s/%s.%s?key=%s&q=%s"
+	docWeatherConditionsURL = "https://www.apixu.com/doc/Apixu_weather_conditions.%s"
+	maxQueryLength          = 256
+)
 
 // Apixu defines methods implemented by Apixu Weather API
 type Apixu interface {
@@ -108,9 +111,16 @@ func (a *apixu) History(q string, since time.Time) (res response.History, err er
 }
 
 func validateQuery(q string) (err error) {
-	if strings.TrimSpace(q) == "" {
+	q = strings.TrimSpace(q)
+
+	if q == "" {
 		err = errors.New("query is missing")
 	}
+
+	if len(q) > maxQueryLength {
+		err = fmt.Errorf("query exceeds maximum length (%d)", maxQueryLength)
+	}
+
 	return
 }
 
