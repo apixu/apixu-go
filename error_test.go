@@ -10,7 +10,7 @@ import (
 
 func TestError(t *testing.T) {
 	text := "message (1000)"
-	code := uint16(1000)
+	code := 1000
 	message := "Message"
 
 	err := Error{

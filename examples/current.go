@@ -66,5 +66,4 @@ func main() {
 	fmt.Println("\tFeelsLikeFahrenheit:", curr.FeelsLikeFahrenheit)
 	fmt.Println("\tVisKM:", curr.VisKM)
 	fmt.Println("\tVisMiles:", curr.VisMiles)
-
 }
