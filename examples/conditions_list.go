@@ -1,0 +1,39 @@
+package main
+
+import (
+	"fmt"
+	"log"
+	"os"
+
+	"github.com/andreiavrammsd/apixu-go"
+)
+
+func main() {
+	config := apixu.Config{
+		Version: "1",
+		Format:  "json",
+		APIKey:  os.Getenv("APIXUKEY"),
+	}
+
+	a, err := apixu.New(config)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	conditions, err := a.Conditions()
+
+	if err != nil {
+		if e, ok := err.(*apixu.Error); ok {
+			log.Fatal(e.Error(), e.Response().Code, e.Response().Message)
+		}
+		log.Fatal(err)
+	}
+
+	for _, c := range conditions {
+		fmt.Println("\tID:", c.Code)
+		fmt.Println("\tDay:", c.Day)
+		fmt.Println("\tNight:", c.Night)
+		fmt.Println("\tIcon:", c.Icon)
+		fmt.Println()
+	}
+}

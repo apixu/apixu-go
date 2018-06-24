@@ -2,7 +2,9 @@
 
 cmd=$1
 
-case "$cmd" in
+pkg=". github.com/andreiavrammsd/apixu-go/formatter github.com/andreiavrammsd/apixu-go/response"
+
+case "${cmd}" in
 "install")
     go get -u \
         golang.org/x/tools/cmd/goimports \
@@ -14,23 +16,23 @@ case "$cmd" in
     ;;
 
 "coverage")
-    OUT=/tmp/cover.out && go test ./... -coverprofile $OUT && go tool cover -html=$OUT
+    OUT=/tmp/cover.out && go test ${pkg} -coverprofile ${OUT} && go tool cover -html=${OUT}
     ;;
 
 "test")
-    go test ./...
+    go test ${pkg}
     ;;
 
 *)
     tools=(
-        "go fmt ./..."
-        "go vet ./..."
-        "go test ./..."
+        "go fmt ${pkg}"
+        "go vet ${pkg}"
+        "go test ${pkg}"
         "golint ./..."
-        "megacheck ./..."
-        "interfacer ./..."
-        "prealloc ./..."
-        "errcheck ./..."
+        "megacheck ${pkg}"
+        "interfacer ${pkg}"
+        "prealloc ${pkg}"
+        "errcheck ${pkg}"
     )
     for var in "${tools[@]}"
     do
