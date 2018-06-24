@@ -21,6 +21,23 @@ func main() {
 		log.Println(err)
 	}
 
+	// Missing query
+	config = apixu.Config{
+		Version: "1",
+		Format:  "json",
+		APIKey:  os.Getenv("APIXUKEY"),
+	}
+
+	a, err = apixu.New(config)
+	if err != nil {
+		log.Println(err)
+	}
+
+	_, err = a.Forecast("", 1)
+	if err != nil {
+		log.Println(err)
+	}
+
 	// API error
 	config = apixu.Config{
 		Version: "1",

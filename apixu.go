@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"strings"
 	"time"
 
 	"github.com/andreiavrammsd/apixu-go/formatter"
@@ -14,7 +15,7 @@ import (
 const apiURL = "https://api.apixu.com/v%s/%s.%s?key=%s&q=%s"
 const docWeatherConditionsURL = "https://www.apixu.com/doc/Apixu_weather_conditions.%s"
 
-// Apixu defines methods implemented by Apixu weather API
+// Apixu defines methods implemented by Apixu Weather API
 type Apixu interface {
 	Conditions() (response.Conditions, error)
 	Current(q string) (response.CurrentWeather, error)
@@ -35,69 +36,85 @@ type request struct {
 }
 
 // Conditions retrieves the weather conditions list
-func (a *apixu) Conditions() (response.Conditions, error) {
+func (a *apixu) Conditions() (res response.Conditions, err error) {
 	url := fmt.Sprintf(docWeatherConditionsURL, a.config.Format)
-	c := response.Conditions{}
-
-	err := a.call(url, &c)
-
-	return c, err
+	err = a.call(url, &res)
+	return
 }
 
 // Current retrieves current weather data
-func (a *apixu) Current(q string) (response.CurrentWeather, error) {
+func (a *apixu) Current(q string) (res response.CurrentWeather, err error) {
+	if err = validateQuery(q); err != nil {
+		return
+	}
+
 	r := request{
 		"current",
 		q,
 	}
 	url := a.getAPIURL(r)
-	res := response.CurrentWeather{}
 
-	err := a.call(url, &res)
+	err = a.call(url, &res)
 
 	return res, err
 }
 
 // Forecast retrieves weather forecast by query
-func (a *apixu) Forecast(q string, days int) (response.Forecast, error) {
+func (a *apixu) Forecast(q string, days int) (res response.Forecast, err error) {
+	if err = validateQuery(q); err != nil {
+		return
+	}
+
 	r := request{
 		"forecast",
 		q,
 	}
 	url := a.getAPIURL(r) + fmt.Sprintf("&days=%d", days)
-	res := response.Forecast{}
 
-	err := a.call(url, &res)
+	err = a.call(url, &res)
 
-	return res, err
+	return
 }
 
 // Search finds cities and towns matching your query (autocomplete)
-func (a *apixu) Search(q string) (response.Search, error) {
+func (a *apixu) Search(q string) (res response.Search, err error) {
+	if err = validateQuery(q); err != nil {
+		return
+	}
+
 	r := request{
 		"search",
 		q,
 	}
 	url := a.getAPIURL(r)
-	res := response.Search{}
 
-	err := a.call(url, &res)
+	err = a.call(url, &res)
 
-	return res, err
+	return
 }
 
 // History retrieves historical weather info
-func (a *apixu) History(q string, since time.Time) (response.History, error) {
+func (a *apixu) History(q string, since time.Time) (res response.History, err error) {
+	if err = validateQuery(q); err != nil {
+		return
+	}
+
 	r := request{
 		"history",
 		q,
 	}
 	url := a.getAPIURL(r) + fmt.Sprintf("&dt=%s", since.Format("2006-01-02"))
-	res := response.History{}
 
-	err := a.call(url, &res)
+	err = a.call(url, &res)
 
-	return res, err
+	return
+}
+
+func validateQuery(q string) (err error) {
+	if strings.TrimSpace(q) == "" {
+		err = errors.New("query is missing")
+	}
+	return
 }
 
 var ioutilReadAll = ioutil.ReadAll

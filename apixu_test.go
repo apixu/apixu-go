@@ -110,8 +110,8 @@ func TestApixu_Conditions(t *testing.T) {
 		assert.Fail(t, err.Error())
 	}
 
-	r, err := a.Conditions()
-	assert.Equal(t, *expected, r)
+	res, err := a.Conditions()
+	assert.Equal(t, *expected, res)
 	assert.NoError(t, err)
 }
 
@@ -135,8 +135,8 @@ func TestApixu_Current(t *testing.T) {
 		assert.Fail(t, err.Error())
 	}
 
-	r, err := a.Current("query")
-	assert.Equal(t, *expected, r)
+	res, err := a.Current("query")
+	assert.Equal(t, *expected, res)
 	assert.NoError(t, err)
 }
 
@@ -160,8 +160,8 @@ func TestApixu_Forecast(t *testing.T) {
 		assert.Fail(t, err.Error())
 	}
 
-	r, err := a.Forecast("query", 2)
-	assert.Equal(t, *expected, r)
+	res, err := a.Forecast("query", 2)
+	assert.Equal(t, *expected, res)
 	assert.NoError(t, err)
 }
 
@@ -185,8 +185,8 @@ func TestApixu_Search(t *testing.T) {
 		assert.Fail(t, err.Error())
 	}
 
-	r, err := a.Search("query")
-	assert.Equal(t, *expected, r)
+	res, err := a.Search("query")
+	assert.Equal(t, *expected, res)
 	assert.NoError(t, err)
 }
 
@@ -210,8 +210,8 @@ func TestApixu_History(t *testing.T) {
 		assert.Fail(t, err.Error())
 	}
 
-	r, err := a.History("query", time.Time{})
-	assert.Equal(t, *expected, r)
+	res, err := a.History("query", time.Time{})
+	assert.Equal(t, *expected, res)
 	assert.NoError(t, err)
 }
 
@@ -231,10 +231,8 @@ func TestApixu_HttpClientGetError(t *testing.T) {
 		return nil, nil
 	}
 
-	expected := response.Search{}
-
-	r, err := a.Search("query")
-	assert.Equal(t, expected, r)
+	res, err := a.Search("query")
+	assert.Nil(t, res)
 	assert.Error(t, err)
 }
 
@@ -254,10 +252,8 @@ func TestApixu_ReadResponseBodyError(t *testing.T) {
 		return nil, errors.New("error")
 	}
 
-	expected := response.Search{}
-
-	r, err := a.Search("query")
-	assert.Equal(t, expected, r)
+	res, err := a.Search("query")
+	assert.Nil(t, res)
 	assert.Error(t, err)
 }
 
@@ -278,10 +274,8 @@ func TestApixu_CloseResponseBodyError(t *testing.T) {
 		return []byte(""), nil
 	}
 
-	expected := response.Search{}
-
-	r, err := a.Search("query")
-	assert.Equal(t, expected, r)
+	res, err := a.Search("query")
+	assert.Nil(t, res)
 	assert.Error(t, err)
 }
 
@@ -304,11 +298,9 @@ func TestApixu_APIErrorResponse(t *testing.T) {
 		return data, nil
 	}
 
-	r, err := a.Search("query")
+	res, err := a.Search("query")
 
-	expected := response.Search{}
-	assert.Equal(t, expected, r)
-
+	assert.Nil(t, res)
 	assert.Error(t, err)
 	assert.IsType(t, &Error{}, err)
 
@@ -342,11 +334,9 @@ func TestApixu_APIMalformedErrorResponse(t *testing.T) {
 		return data, nil
 	}
 
-	r, err := a.Search("query")
+	res, err := a.Search("query")
 
-	expected := response.Search{}
-	assert.Equal(t, expected, r)
-
+	assert.Nil(t, res)
 	assert.Error(t, err)
 }
 
