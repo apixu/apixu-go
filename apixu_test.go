@@ -137,7 +137,7 @@ func TestApixu_Current(t *testing.T) {
 	}
 
 	res, err := a.Current("query")
-	assert.Equal(t, *expected, res)
+	assert.Equal(t, expected, res)
 	assert.NoError(t, err)
 }
 
@@ -162,7 +162,7 @@ func TestApixu_Forecast(t *testing.T) {
 	}
 
 	res, err := a.Forecast("query", 2)
-	assert.Equal(t, *expected, res)
+	assert.Equal(t, expected, res)
 	assert.NoError(t, err)
 }
 
@@ -212,7 +212,7 @@ func TestApixu_History(t *testing.T) {
 	}
 
 	res, err := a.History("query", time.Time{})
-	assert.Equal(t, *expected, res)
+	assert.Equal(t, *expected, *res)
 	assert.NoError(t, err)
 }
 

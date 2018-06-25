@@ -23,10 +23,10 @@ const (
 // Apixu defines methods implemented by Apixu Weather API
 type Apixu interface {
 	Conditions() (response.Conditions, error)
-	Current(q string) (response.CurrentWeather, error)
-	Forecast(q string, days int) (response.Forecast, error)
+	Current(q string) (*response.CurrentWeather, error)
+	Forecast(q string, days int) (*response.Forecast, error)
 	Search(q string) (response.Search, error)
-	History(q string, since time.Time) (response.History, error)
+	History(q string, since time.Time) (*response.History, error)
 }
 
 type apixu struct {
@@ -48,7 +48,7 @@ func (a *apixu) Conditions() (res response.Conditions, err error) {
 }
 
 // Current retrieves current weather data
-func (a *apixu) Current(q string) (res response.CurrentWeather, err error) {
+func (a *apixu) Current(q string) (res *response.CurrentWeather, err error) {
 	if err = validateQuery(q); err != nil {
 		return
 	}
@@ -66,7 +66,7 @@ func (a *apixu) Current(q string) (res response.CurrentWeather, err error) {
 }
 
 // Forecast retrieves weather forecast by query
-func (a *apixu) Forecast(q string, days int) (res response.Forecast, err error) {
+func (a *apixu) Forecast(q string, days int) (res *response.Forecast, err error) {
 	if err = validateQuery(q); err != nil {
 		return
 	}
@@ -103,7 +103,7 @@ func (a *apixu) Search(q string) (res response.Search, err error) {
 }
 
 // History retrieves historical weather info
-func (a *apixu) History(q string, since time.Time) (res response.History, err error) {
+func (a *apixu) History(q string, since time.Time) (res *response.History, err error) {
 	if err = validateQuery(q); err != nil {
 		return
 	}
