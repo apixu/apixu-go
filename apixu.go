@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/url"
+	"strconv"
 	"strings"
 	"time"
 
@@ -14,7 +15,7 @@ import (
 )
 
 const (
-	apiURL                  = "https://api.apixu.com/v%s/%s.%s?key=%s&q=%s"
+	apiURL                  = "https://api.apixu.com/v%s/%s.%s?key=%s&%s"
 	docWeatherConditionsURL = "https://www.apixu.com/doc/Apixu_weather_conditions.%s"
 	maxQueryLength          = 256
 )
@@ -36,7 +37,7 @@ type apixu struct {
 
 type request struct {
 	method string
-	query  string
+	params url.Values
 }
 
 // Conditions retrieves the weather conditions list
@@ -52,13 +53,15 @@ func (a *apixu) Current(q string) (res response.CurrentWeather, err error) {
 		return
 	}
 
-	r := request{
-		"current",
-		q,
-	}
-	u := a.getAPIURL(r)
+	p := url.Values{}
+	p.Set("q", q)
 
-	err = a.call(u, &res)
+	req := request{
+		method: "current",
+		params: p,
+	}
+
+	err = a.call(a.getAPIURL(req), &res)
 	return
 }
 
@@ -68,13 +71,16 @@ func (a *apixu) Forecast(q string, days int) (res response.Forecast, err error) 
 		return
 	}
 
-	r := request{
-		"forecast",
-		q,
-	}
-	u := a.getAPIURL(r) + fmt.Sprintf("&days=%d", days)
+	p := url.Values{}
+	p.Set("q", q)
+	p.Set("days", strconv.Itoa(days))
 
-	err = a.call(u, &res)
+	req := request{
+		method: "forecast",
+		params: p,
+	}
+
+	err = a.call(a.getAPIURL(req), &res)
 	return
 }
 
@@ -84,13 +90,15 @@ func (a *apixu) Search(q string) (res response.Search, err error) {
 		return
 	}
 
-	r := request{
-		"search",
-		q,
-	}
-	u := a.getAPIURL(r)
+	p := url.Values{}
+	p.Set("q", q)
 
-	err = a.call(u, &res)
+	req := request{
+		method: "search",
+		params: p,
+	}
+
+	err = a.call(a.getAPIURL(req), &res)
 	return
 }
 
@@ -100,13 +108,16 @@ func (a *apixu) History(q string, since time.Time) (res response.History, err er
 		return
 	}
 
-	r := request{
-		"history",
-		q,
-	}
-	u := a.getAPIURL(r) + fmt.Sprintf("&dt=%s", since.Format("2006-01-02"))
+	p := url.Values{}
+	p.Set("q", q)
+	p.Set("dt", since.Format("2006-01-02"))
 
-	err = a.call(u, &res)
+	req := request{
+		method: "history",
+		params: p,
+	}
+
+	err = a.call(a.getAPIURL(req), &res)
 	return
 }
 
@@ -170,14 +181,14 @@ func (a *apixu) call(url string, b interface{}) (err error) {
 }
 
 // getApiUrl forms the full API url for each request
-func (a *apixu) getAPIURL(r request) string {
+func (a *apixu) getAPIURL(req request) string {
 	return fmt.Sprintf(
 		apiURL,
 		a.config.Version,
-		r.method,
+		req.method,
 		a.config.Format,
 		a.config.APIKey,
-		url.QueryEscape(r.query),
+		req.params.Encode(),
 	)
 }
 

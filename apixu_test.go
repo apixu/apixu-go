@@ -7,6 +7,7 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"path/filepath"
 	"testing"
 	"time"
@@ -343,18 +344,29 @@ func TestApixu_APIMalformedErrorResponse(t *testing.T) {
 // TestGetApiUrl
 func TestGetApiUrl(t *testing.T) {
 	a := &apixu{}
-	a.config = Config{"1", "xml", "apikey"}
-	r := request{"GET", "query"}
+	a.config = Config{
+		Version: "1",
+		Format:  "xml",
+		APIKey:  "apikey",
+	}
+
+	p := url.Values{}
+	p.Set("q", "query")
+
+	req := request{
+		method: "history",
+		params: p,
+	}
 
 	expected := fmt.Sprintf(
 		apiURL,
 		a.config.Version,
-		r.method,
+		req.method,
 		a.config.Format,
 		a.config.APIKey,
-		r.query,
+		p.Encode(),
 	)
-	result := a.getAPIURL(r)
+	result := a.getAPIURL(req)
 
 	assert.Equal(t, expected, result)
 }
