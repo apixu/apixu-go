@@ -228,10 +228,6 @@ func TestApixu_HttpClientGetError(t *testing.T) {
 		formatter:  f,
 	}
 
-	ioutilReadAll = func(r io.Reader) ([]byte, error) {
-		return nil, nil
-	}
-
 	res, err := a.Search("query")
 	assert.Nil(t, res)
 	assert.Error(t, err)
@@ -250,7 +246,7 @@ func TestApixu_ReadResponseBodyError(t *testing.T) {
 	}
 
 	ioutilReadAll = func(r io.Reader) ([]byte, error) {
-		return nil, errors.New("error")
+		return []byte{}, errors.New("error")
 	}
 
 	res, err := a.Search("query")

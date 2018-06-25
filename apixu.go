@@ -146,7 +146,7 @@ func (a *apixu) call(url string, b interface{}) (err error) {
 
 	body, err := ioutilReadAll(res.Body)
 	if err != nil {
-		return errors.New("cannot read response")
+		return fmt.Errorf("cannot read response body (%s)", err)
 	}
 
 	defer func() {
