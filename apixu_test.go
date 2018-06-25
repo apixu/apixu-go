@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/url"
 	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 
@@ -92,11 +93,9 @@ func (*jsonFormatterMock) Unmarshal(data []byte, object interface{}) error {
 }
 
 func TestApixu_Conditions(t *testing.T) {
-	c := Config{}
 	f := &jsonFormatterMock{}
-
 	a := &apixu{
-		config:     c,
+		config:     Config{},
 		httpClient: &httpClientMock{},
 		formatter:  f,
 	}
@@ -117,11 +116,9 @@ func TestApixu_Conditions(t *testing.T) {
 }
 
 func TestApixu_Current(t *testing.T) {
-	c := Config{}
 	f := &jsonFormatterMock{}
-
 	a := &apixu{
-		config:     c,
+		config:     Config{},
 		httpClient: &httpClientMock{},
 		formatter:  f,
 	}
@@ -141,12 +138,22 @@ func TestApixu_Current(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-func TestApixu_Forecast(t *testing.T) {
-	c := Config{}
-	f := &jsonFormatterMock{}
-
+func TestApixu_CurrentWithQueryError(t *testing.T) {
 	a := &apixu{
-		config:     c,
+		config:     Config{},
+		httpClient: &httpClientMock{},
+		formatter:  &jsonFormatterMock{},
+	}
+
+	res, err := a.Current(" ")
+	assert.Nil(t, res)
+	assert.Error(t, err)
+}
+
+func TestApixu_Forecast(t *testing.T) {
+	f := &jsonFormatterMock{}
+	a := &apixu{
+		config:     Config{},
 		httpClient: &httpClientMock{},
 		formatter:  f,
 	}
@@ -166,12 +173,22 @@ func TestApixu_Forecast(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-func TestApixu_Search(t *testing.T) {
-	c := Config{}
-	f := &jsonFormatterMock{}
-
+func TestApixu_ForecastWithQueryError(t *testing.T) {
 	a := &apixu{
-		config:     c,
+		config:     Config{},
+		httpClient: &httpClientMock{},
+		formatter:  &jsonFormatterMock{},
+	}
+
+	res, err := a.Forecast(strings.Repeat("q", maxQueryLength+1), 1)
+	assert.Nil(t, res)
+	assert.Error(t, err)
+}
+
+func TestApixu_Search(t *testing.T) {
+	f := &jsonFormatterMock{}
+	a := &apixu{
+		config:     Config{},
 		httpClient: &httpClientMock{},
 		formatter:  f,
 	}
@@ -191,12 +208,22 @@ func TestApixu_Search(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-func TestApixu_History(t *testing.T) {
-	c := Config{}
-	f := &jsonFormatterMock{}
-
+func TestApixu_SearchWithQueryError(t *testing.T) {
 	a := &apixu{
-		config:     c,
+		config:     Config{},
+		httpClient: &httpClientMock{},
+		formatter:  &jsonFormatterMock{},
+	}
+
+	res, err := a.Search("")
+	assert.Nil(t, res)
+	assert.Error(t, err)
+}
+
+func TestApixu_History(t *testing.T) {
+	f := &jsonFormatterMock{}
+	a := &apixu{
+		config:     Config{},
 		httpClient: &httpClientMock{},
 		formatter:  f,
 	}
@@ -216,17 +243,25 @@ func TestApixu_History(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-func TestApixu_HttpClientGetError(t *testing.T) {
-	c := Config{}
-	f := &jsonFormatterMock{}
-
-	httpClientError = errors.New("error")
-
+func TestApixu_HistoryWithQueryError(t *testing.T) {
 	a := &apixu{
-		config:     c,
+		config:     Config{},
 		httpClient: &httpClientMock{},
-		formatter:  f,
+		formatter:  &jsonFormatterMock{},
 	}
+
+	res, err := a.History("", time.Time{})
+	assert.Nil(t, res)
+	assert.Error(t, err)
+}
+
+func TestApixu_HttpClientGetError(t *testing.T) {
+	a := &apixu{
+		config:     Config{},
+		httpClient: &httpClientMock{},
+		formatter:  &jsonFormatterMock{},
+	}
+	httpClientError = errors.New("error")
 
 	res, err := a.Search("query")
 	assert.Nil(t, res)
@@ -234,16 +269,13 @@ func TestApixu_HttpClientGetError(t *testing.T) {
 }
 
 func TestApixu_ReadResponseBodyError(t *testing.T) {
-	c := Config{}
-	f := &jsonFormatterMock{}
+	a := &apixu{
+		config:     Config{},
+		httpClient: &httpClientMock{},
+		formatter:  &jsonFormatterMock{},
+	}
 
 	httpClientError = nil
-
-	a := &apixu{
-		config:     c,
-		httpClient: &httpClientMock{},
-		formatter:  f,
-	}
 
 	ioutilReadAll = func(r io.Reader) ([]byte, error) {
 		return []byte{}, errors.New("error")
@@ -255,17 +287,14 @@ func TestApixu_ReadResponseBodyError(t *testing.T) {
 }
 
 func TestApixu_CloseResponseBodyError(t *testing.T) {
-	c := Config{}
-	f := &jsonFormatterMock{}
+	a := &apixu{
+		config:     Config{},
+		httpClient: &httpClientMock{},
+		formatter:  &jsonFormatterMock{},
+	}
 
 	httpClientError = nil
 	httpClientResponseBodyCloseError = errors.New("error")
-
-	a := &apixu{
-		config:     c,
-		httpClient: &httpClientMock{},
-		formatter:  f,
-	}
 
 	ioutilReadAll = func(r io.Reader) ([]byte, error) {
 		return []byte(""), nil
@@ -277,18 +306,16 @@ func TestApixu_CloseResponseBodyError(t *testing.T) {
 }
 
 func TestApixu_APIErrorResponse(t *testing.T) {
-	c := Config{}
 	f := &jsonFormatterMock{}
+	a := &apixu{
+		config:     Config{},
+		httpClient: &httpClientMock{},
+		formatter:  f,
+	}
 
 	httpClientResponse.StatusCode = 400
 	httpClientError = nil
 	httpClientResponseBodyCloseError = nil
-
-	a := &apixu{
-		config:     c,
-		httpClient: &httpClientMock{},
-		formatter:  f,
-	}
 
 	data := loadData(t, "error")
 	ioutilReadAll = func(r io.Reader) ([]byte, error) {
@@ -313,17 +340,14 @@ func TestApixu_APIErrorResponse(t *testing.T) {
 }
 
 func TestApixu_APIMalformedErrorResponse(t *testing.T) {
-	c := Config{}
-	f := &jsonFormatterMock{}
-
 	httpClientResponse.StatusCode = 400
 	httpClientError = nil
 	httpClientResponseBodyCloseError = nil
 
 	a := &apixu{
-		config:     c,
+		config:     Config{},
 		httpClient: &httpClientMock{},
-		formatter:  f,
+		formatter:  &jsonFormatterMock{},
 	}
 
 	data := []byte(`{invalid json}`)
