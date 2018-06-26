@@ -61,15 +61,6 @@ func TestNewWithUnknownFormat(t *testing.T) {
 type httpClientMock struct {
 }
 
-var (
-	httpClientResponse = &http.Response{
-		StatusCode: 200,
-		Body:       &bodyMock{},
-	}
-	httpClientError                  error
-	httpClientResponseBodyCloseError error
-)
-
 func (*httpClientMock) Get(url string) (*http.Response, error) {
 	return httpClientResponse, httpClientError
 }
@@ -84,6 +75,15 @@ func (*bodyMock) Read(p []byte) (n int, err error) {
 func (*bodyMock) Close() error {
 	return httpClientResponseBodyCloseError
 }
+
+var (
+	httpClientResponse = &http.Response{
+		StatusCode: 200,
+		Body:       &bodyMock{},
+	}
+	httpClientError                  error
+	httpClientResponseBodyCloseError error
+)
 
 type jsonFormatterMock struct {
 }
@@ -101,7 +101,7 @@ func TestApixu_Conditions(t *testing.T) {
 	}
 
 	data := loadData(t, "conditions")
-	ioutilReadAll = func(r io.Reader) ([]byte, error) {
+	ioUtilReadAll = func(r io.Reader) ([]byte, error) {
 		return data, nil
 	}
 
@@ -124,7 +124,7 @@ func TestApixu_Current(t *testing.T) {
 	}
 
 	data := loadData(t, "current")
-	ioutilReadAll = func(r io.Reader) ([]byte, error) {
+	ioUtilReadAll = func(r io.Reader) ([]byte, error) {
 		return data, nil
 	}
 
@@ -159,7 +159,7 @@ func TestApixu_Forecast(t *testing.T) {
 	}
 
 	data := loadData(t, "forecast")
-	ioutilReadAll = func(r io.Reader) ([]byte, error) {
+	ioUtilReadAll = func(r io.Reader) ([]byte, error) {
 		return data, nil
 	}
 
@@ -194,7 +194,7 @@ func TestApixu_Search(t *testing.T) {
 	}
 
 	data := loadData(t, "search")
-	ioutilReadAll = func(r io.Reader) ([]byte, error) {
+	ioUtilReadAll = func(r io.Reader) ([]byte, error) {
 		return data, nil
 	}
 
@@ -229,7 +229,7 @@ func TestApixu_History(t *testing.T) {
 	}
 
 	data := loadData(t, "history")
-	ioutilReadAll = func(r io.Reader) ([]byte, error) {
+	ioUtilReadAll = func(r io.Reader) ([]byte, error) {
 		return data, nil
 	}
 
@@ -277,7 +277,7 @@ func TestApixu_ReadResponseBodyError(t *testing.T) {
 
 	httpClientError = nil
 
-	ioutilReadAll = func(r io.Reader) ([]byte, error) {
+	ioUtilReadAll = func(r io.Reader) ([]byte, error) {
 		return []byte{}, errors.New("error")
 	}
 
@@ -296,7 +296,7 @@ func TestApixu_CloseResponseBodyError(t *testing.T) {
 	httpClientError = nil
 	httpClientResponseBodyCloseError = errors.New("error")
 
-	ioutilReadAll = func(r io.Reader) ([]byte, error) {
+	ioUtilReadAll = func(r io.Reader) ([]byte, error) {
 		return []byte(""), nil
 	}
 
@@ -318,7 +318,7 @@ func TestApixu_APIErrorResponse(t *testing.T) {
 	httpClientResponseBodyCloseError = nil
 
 	data := loadData(t, "error")
-	ioutilReadAll = func(r io.Reader) ([]byte, error) {
+	ioUtilReadAll = func(r io.Reader) ([]byte, error) {
 		return data, nil
 	}
 
@@ -340,18 +340,18 @@ func TestApixu_APIErrorResponse(t *testing.T) {
 }
 
 func TestApixu_APIMalformedErrorResponse(t *testing.T) {
-	httpClientResponse.StatusCode = 400
-	httpClientError = nil
-	httpClientResponseBodyCloseError = nil
-
 	a := &apixu{
 		config:     Config{},
 		httpClient: &httpClientMock{},
 		formatter:  &jsonFormatterMock{},
 	}
 
+	httpClientResponse.StatusCode = 400
+	httpClientError = nil
+	httpClientResponseBodyCloseError = nil
+
 	data := []byte(`{invalid json}`)
-	ioutilReadAll = func(r io.Reader) ([]byte, error) {
+	ioUtilReadAll = func(r io.Reader) ([]byte, error) {
 		return data, nil
 	}
 

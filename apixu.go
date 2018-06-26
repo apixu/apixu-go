@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"net/http"
 	"net/url"
 	"strconv"
 	"strings"
@@ -20,6 +21,8 @@ const (
 	maxQueryLength          = 256
 )
 
+var ioUtilReadAll = ioutil.ReadAll
+
 // Apixu defines methods implemented by Apixu Weather API
 type Apixu interface {
 	Conditions() (response.Conditions, error)
@@ -31,7 +34,7 @@ type Apixu interface {
 
 type apixu struct {
 	config     Config
-	httpClient HTTPClient
+	httpClient httpClient
 	formatter  formatter.Formatter
 }
 
@@ -121,6 +124,7 @@ func (a *apixu) History(q string, since time.Time) (res *response.History, err e
 	return
 }
 
+// validateQuery checks the given query for possible issues
 func validateQuery(q string) (err error) {
 	q = strings.TrimSpace(q)
 
@@ -135,16 +139,26 @@ func validateQuery(q string) (err error) {
 	return
 }
 
-var ioutilReadAll = ioutil.ReadAll
+// getApiUrl generates the full API url for each request
+func (a *apixu) getAPIURL(req request) string {
+	return fmt.Sprintf(
+		apiURL,
+		a.config.Version,
+		req.method,
+		a.config.Format,
+		a.config.APIKey,
+		req.params.Encode(),
+	)
+}
 
-// call uses the HTTP Client to call the REST service
+// call uses the HTTP client to call the REST service
 func (a *apixu) call(url string, b interface{}) (err error) {
 	res, err := a.httpClient.Get(url)
 	if err != nil {
 		return fmt.Errorf("cannot call service (%s)", err)
 	}
 
-	body, err := ioutilReadAll(res.Body)
+	body, err := ioUtilReadAll(res.Body)
 	if err != nil {
 		return fmt.Errorf("cannot read response body (%s)", err)
 	}
@@ -155,7 +169,7 @@ func (a *apixu) call(url string, b interface{}) (err error) {
 		}
 	}()
 
-	if res.StatusCode >= 400 {
+	if res.StatusCode != 200 {
 		apiError := response.Error{}
 		err = a.formatter.Unmarshal(body, &apiError)
 		if err != nil {
@@ -180,18 +194,6 @@ func (a *apixu) call(url string, b interface{}) (err error) {
 	return
 }
 
-// getApiUrl forms the full API url for each request
-func (a *apixu) getAPIURL(req request) string {
-	return fmt.Sprintf(
-		apiURL,
-		a.config.Version,
-		req.method,
-		a.config.Format,
-		a.config.APIKey,
-		req.params.Encode(),
-	)
-}
-
 // New creates an Apixu package instance
 func New(c Config) (Apixu, error) {
 	if c.Version == "" {
@@ -208,9 +210,11 @@ func New(c Config) (Apixu, error) {
 	}
 
 	a := &apixu{
-		config:     c,
-		httpClient: &httpClient{},
-		formatter:  f,
+		config: c,
+		httpClient: &http.Client{
+			Timeout: time.Second * 15,
+		},
+		formatter: f,
 	}
 
 	return a, nil
