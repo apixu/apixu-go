@@ -8,13 +8,13 @@ See the [examples](./examples) and run them with: APIXUKEY=yourapikey go run exa
 
 ## Install
 
-go get -t ./...
+go get github.com/andreiavrammsd/apixu-go
 
 ## Error handling
 
 For more details of an API method error, assert it to the [apixu.Error](./error.go) type.
 
-## Methods implementations status
+## Methods implementation status
 
 | Method | Implemented
 | :-   | :-
@@ -26,4 +26,4 @@ For more details of an API method error, assert it to the [apixu.Error](./error.
 
 ## Testing and QA tools for development
 
-See [qa](./qa) file.
+See [Makefile](./Makefile) file.
