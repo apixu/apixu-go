@@ -1,14 +1,44 @@
 [
-    {
-        "code":1000,
-        "day":"Sunny",
-        "night":"Clear",
-        "icon":113
-    },
-    {
-        "code":1003,
-        "day":"Partly cloudy",
-        "night":"Partly cloudy",
-        "icon":116
-    }
+	{
+		"code" : 1000,
+		"day" : "Sunny",
+		"night" : "Clear",
+		"icon" : 113
+	},
+	{
+		"code" : 1003,
+		"day" : "Partly cloudy",
+		"night" : "Partly cloudy",
+		"icon" : 116
+	},
+	{
+		"code" : 1213,
+		"day" : "Light snow",
+		"night" : "Light snow",
+		"icon" : 326
+	},
+	{
+		"code" : 1216,
+		"day" : "Patchy moderate snow",
+		"night" : "Patchy moderate snow",
+		"icon" : 329
+	},
+	{
+		"code" : 1219,
+		"day" : "Moderate snow",
+		"night" : "Moderate snow",
+		"icon" : 332
+	},
+	{
+		"code" : 1222,
+		"day" : "Patchy heavy snow",
+		"night" : "Patchy heavy snow",
+		"icon" : 335
+	},
+	{
+		"code" : 1282,
+		"day" : "Moderate or heavy snow with thunder",
+		"night" : "Moderate or heavy snow with thunder",
+		"icon" : 395
+	}
 ]
