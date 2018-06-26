@@ -7,7 +7,8 @@ pkg=". ${base}/formatter ${base}/response ${base}/types"
 
 case "${cmd}" in
 "install")
-    go get -u \
+    go get \
+        github.com/stretchr/testify/assert \
         golang.org/x/tools/cmd/goimports \
         golang.org/x/lint/golint \
         honnef.co/go/tools/cmd/megacheck \
