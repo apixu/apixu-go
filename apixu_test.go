@@ -2,6 +2,7 @@ package apixu
 
 import (
 	"encoding/json"
+	"encoding/xml"
 	"errors"
 	"fmt"
 	"io"
@@ -90,6 +91,13 @@ type jsonFormatterMock struct {
 
 func (*jsonFormatterMock) Unmarshal(data []byte, object interface{}) error {
 	return json.Unmarshal(data, object)
+}
+
+type xmlFormatterMock struct {
+}
+
+func (*xmlFormatterMock) Unmarshal(data []byte, object interface{}) error {
+	return xml.Unmarshal(data, object)
 }
 
 func TestApixu_Conditions(t *testing.T) {
@@ -186,7 +194,7 @@ func TestApixu_ForecastWithQueryError(t *testing.T) {
 }
 
 func TestApixu_Search(t *testing.T) {
-	f := &jsonFormatterMock{}
+	f := &xmlFormatterMock{}
 	a := &apixu{
 		config:     Config{},
 		httpClient: &httpClientMock{},
