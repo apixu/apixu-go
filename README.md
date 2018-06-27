@@ -6,6 +6,10 @@ Go package for [Apixu Weather API](https://www.apixu.com/api.aspx)
 
 See the [examples](./examples) and run them with: APIXUKEY=yourapikey go run examples/_filename_.go
 
+## Full documentation
+
+https://www.apixu.com/doc/
+
 ## Install
 
 go get github.com/andreiavrammsd/apixu-go

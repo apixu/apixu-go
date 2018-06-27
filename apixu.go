@@ -50,7 +50,7 @@ func (a *apixu) Conditions() (res response.Conditions, err error) {
 	return
 }
 
-// Current retrieves current weather data
+// Current retrieves realtime weather information by city name
 func (a *apixu) Current(q string) (res *response.CurrentWeather, err error) {
 	if err = validateQuery(q); err != nil {
 		return
@@ -68,7 +68,7 @@ func (a *apixu) Current(q string) (res *response.CurrentWeather, err error) {
 	return
 }
 
-// Forecast retrieves weather forecast by query
+// Forecast retrieves weather forecast for up to next 10 days
 func (a *apixu) Forecast(q string, days int) (res *response.Forecast, err error) {
 	if err = validateQuery(q); err != nil {
 		return
@@ -105,7 +105,7 @@ func (a *apixu) Search(q string) (res response.Search, err error) {
 	return
 }
 
-// History retrieves historical weather info
+// History retrieves historical weather information for a city and a date starting 2015-01-01
 func (a *apixu) History(q string, since time.Time) (res *response.History, err error) {
 	if err = validateQuery(q); err != nil {
 		return
