@@ -19,6 +19,7 @@ const (
 	apiURL                  = "https://api.apixu.com/v%s/%s.%s?key=%s&%s"
 	docWeatherConditionsURL = "https://www.apixu.com/doc/Apixu_weather_conditions.%s"
 	maxQueryLength          = 256
+	httpTimeout             = time.Second * 20
 )
 
 var ioUtilReadAll = ioutil.ReadAll
@@ -169,7 +170,11 @@ func (a *apixu) call(url string, b interface{}) (err error) {
 		}
 	}()
 
-	if res.StatusCode != 200 {
+	if res.StatusCode != http.StatusOK {
+		if res.StatusCode >= http.StatusInternalServerError {
+			return fmt.Errorf("internal server error (code %d)", res.StatusCode)
+		}
+
 		apiError := response.Error{}
 		err = a.formatter.Unmarshal(body, &apiError)
 		if err != nil {
@@ -212,7 +217,7 @@ func New(c Config) (Apixu, error) {
 	a := &apixu{
 		config: c,
 		httpClient: &http.Client{
-			Timeout: time.Second * 15,
+			Timeout: httpTimeout,
 		},
 		formatter: f,
 	}
