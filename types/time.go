@@ -23,8 +23,8 @@ func (t *DateTime) MarshalJSON() ([]byte, error) {
 	dt := formatDate(t)
 
 	res := "null"
-	if dt != "" {
-		res = fmt.Sprintf(`"%s"`, dt)
+	if dt != nil {
+		res = fmt.Sprintf(`"%s"`, *dt)
 	}
 
 	return []byte(res), nil
@@ -48,7 +48,12 @@ func (t *DateTime) UnmarshalJSON(b []byte) error {
 
 // MarshalXML converts time to string representation
 func (t *DateTime) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
-	return e.EncodeElement(formatDate(t), start)
+	dt := formatDate(t)
+	if dt == nil {
+		return nil
+	}
+
+	return e.EncodeElement(*dt, start)
 }
 
 // UnmarshalXML converts string represented time to time.Time from XML
@@ -84,10 +89,17 @@ func parseTime(value string) (dt time.Time, err error) {
 	return
 }
 
-func formatDate(value *DateTime) string {
+func formatDate(value *DateTime) *string {
 	if value == nil {
-		return ""
+		return nil
 	}
 
-	return time.Time(*value).Format(dateMarshalFormat)
+	dt := time.Time(*value)
+	if dt.IsZero() {
+		return nil
+	}
+
+	formatted := dt.Format(dateMarshalFormat)
+
+	return &formatted
 }
