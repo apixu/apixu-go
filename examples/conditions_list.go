@@ -30,7 +30,7 @@ func main() {
 	}
 
 	for _, c := range conditions {
-		fmt.Println("\tID:", c.Code)
+		fmt.Println("\tCode:", c.Code)
 		fmt.Println("\tDay:", c.Day)
 		fmt.Println("\tNight:", c.Night)
 		fmt.Println("\tIcon:", c.Icon)

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/xml"
 	"fmt"
 	"log"
 	"os"
@@ -40,4 +41,10 @@ func main() {
 		fmt.Println("\tURL:", item.URL)
 		fmt.Println()
 	}
+
+	data, err := xml.Marshal(search)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("\n%s", data)
 }

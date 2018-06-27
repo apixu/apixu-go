@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
@@ -67,4 +68,12 @@ func main() {
 	fmt.Println("\tFeelsLikeFahrenheit:", curr.FeelsLikeFahrenheit)
 	fmt.Println("\tVisKM:", curr.VisKM)
 	fmt.Println("\tVisMiles:", curr.VisMiles)
+
+	data, err := json.Marshal(current)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("\n%s", data)
+
+	return
 }

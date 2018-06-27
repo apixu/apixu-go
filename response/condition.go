@@ -5,6 +5,9 @@ import (
 	"io"
 )
 
+// Conditions defines Condition items list
+type Conditions []Condition
+
 // Condition defines the weather condition item
 type Condition struct {
 	Code  int    `json:"code" xml:"code"`
@@ -13,8 +16,18 @@ type Condition struct {
 	Icon  int    `json:"icon" xml:"icon"`
 }
 
-// Conditions defines Condition items list
-type Conditions []Condition
+// MarshalXML converts Conditions list response to XML
+func (c Conditions) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
+	res := struct {
+		Conditions []Condition `xml:"condition"`
+	}{Conditions: c}
+
+	start.Name = xml.Name{
+		Local: "conditions",
+	}
+
+	return e.EncodeElement(res, start)
+}
 
 // UnmarshalXML inserts the Condition elements into the list
 func (c *Conditions) UnmarshalXML(d *xml.Decoder, start xml.StartElement) (err error) {
