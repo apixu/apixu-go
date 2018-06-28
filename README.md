@@ -1,6 +1,8 @@
-# apixu-go
+# Apixu Go
 
 Go package for [Apixu Weather API](https://www.apixu.com/api.aspx)
+
+[![GoDoc](https://godoc.org/github.com/andreiavrammsd/apixu-go?status.svg)](https://godoc.org/github.com/andreiavrammsd/apixu-go)
 
 ## Install
 
