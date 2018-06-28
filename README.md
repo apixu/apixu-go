@@ -10,24 +10,13 @@ go get github.com/andreiavrammsd/apixu-go
 
 See the [examples](./examples) and run them with: APIXUKEY=yourapikey go run examples/_filename_.go
 
-## Full documentation
-
-https://www.apixu.com/doc/
-
-
 ## Error handling
 
 For more details of an API method error, assert it to the [apixu.Error](./error.go) type.
 
-## Methods implementation status
+## Full documentation of Apixu API
 
-| Method | Implemented
-| :-   | :-
-| Current weather | yes
-| Forecast | yes
-| Search or Autocomplete | yes
-| History | yes
-| Conditions list | yes
+https://www.apixu.com/doc/
 
 ## Extending the package
 
