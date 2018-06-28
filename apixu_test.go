@@ -305,7 +305,7 @@ func TestApixu_CloseResponseBodyError(t *testing.T) {
 	httpClientResponseBodyCloseError = errors.New("error")
 
 	ioUtilReadAll = func(r io.Reader) ([]byte, error) {
-		return []byte(""), nil
+		return []byte{}, nil
 	}
 
 	res, err := a.Search("query")
@@ -347,6 +347,27 @@ func TestApixu_APIErrorResponse(t *testing.T) {
 	assert.Equal(t, expectedError, err)
 }
 
+func TestApixu_APIInternalServerError(t *testing.T) {
+	a := &apixu{
+		config:     Config{},
+		httpClient: &httpClientMock{},
+		formatter:  &jsonFormatterMock{},
+	}
+
+	httpClientResponse.StatusCode = 501
+	httpClientError = nil
+	httpClientResponseBodyCloseError = nil
+
+	ioUtilReadAll = func(r io.Reader) ([]byte, error) {
+		return []byte{}, nil
+	}
+
+	res, err := a.Search("query")
+
+	assert.Nil(t, res)
+	assert.Error(t, err)
+}
+
 func TestApixu_APIMalformedErrorResponse(t *testing.T) {
 	a := &apixu{
 		config:     Config{},
@@ -358,9 +379,8 @@ func TestApixu_APIMalformedErrorResponse(t *testing.T) {
 	httpClientError = nil
 	httpClientResponseBodyCloseError = nil
 
-	data := []byte(`{invalid json}`)
 	ioUtilReadAll = func(r io.Reader) ([]byte, error) {
-		return data, nil
+		return []byte(`{invalid json}`), nil
 	}
 
 	res, err := a.Search("query")
