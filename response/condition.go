@@ -30,7 +30,7 @@ func (c Conditions) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 }
 
 // UnmarshalXML inserts the Condition elements into the list
-func (c *Conditions) UnmarshalXML(d *xml.Decoder, start xml.StartElement) (err error) {
+func (c *Conditions) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	conditions := make(Conditions, 0)
 	el := &Condition{}
 

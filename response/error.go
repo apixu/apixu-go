@@ -15,10 +15,12 @@ type ErrorResponse struct {
 
 // UnmarshalXML inserts the API error response into the error element
 func (e *Error) UnmarshalXML(d *xml.Decoder, start xml.StartElement) (err error) {
-	var el *ErrorResponse
-	if err := d.DecodeElement(&el, &start); err != nil {
-		return err
+	el := &ErrorResponse{}
+	if err = d.DecodeElement(&el, &start); err != nil {
+		return
 	}
+
 	e.Error = *el
-	return nil
+
+	return
 }

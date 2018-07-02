@@ -22,7 +22,7 @@ func (s Search) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 }
 
 // UnmarshalXML inserts the Location elements into the list
-func (s *Search) UnmarshalXML(d *xml.Decoder, start xml.StartElement) (err error) {
+func (s *Search) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	locations := make(Search, 0)
 	el := &Location{}
 

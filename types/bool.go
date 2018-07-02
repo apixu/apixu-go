@@ -22,14 +22,15 @@ func (b *Bool) UnmarshalJSON(data []byte) (err error) {
 	}
 
 	*b = Bool(value)
+
 	return
 }
 
 // UnmarshalXML converts int to bool from XML
 func (b *Bool) UnmarshalXML(d *xml.Decoder, start xml.StartElement) (err error) {
 	var el *int
-	if err := d.DecodeElement(&el, &start); err != nil {
-		return err
+	if err = d.DecodeElement(&el, &start); err != nil {
+		return
 	}
 
 	if el == nil {
@@ -38,10 +39,11 @@ func (b *Bool) UnmarshalXML(d *xml.Decoder, start xml.StartElement) (err error) 
 
 	value, err := parseBool(*el)
 	if err != nil {
-		return err
+		return
 	}
 
 	*b = Bool(value)
+
 	return
 }
 

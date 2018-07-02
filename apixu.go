@@ -126,18 +126,18 @@ func (a *apixu) History(q string, since time.Time) (res *response.History, err e
 }
 
 // validateQuery checks the given query for possible issues
-func validateQuery(q string) (err error) {
+func validateQuery(q string) error {
 	q = strings.TrimSpace(q)
 
 	if q == "" {
-		err = errors.New("query is missing")
+		return errors.New("query is missing")
 	}
 
 	if len(q) > maxQueryLength {
-		err = fmt.Errorf("query exceeds maximum length (%d)", maxQueryLength)
+		return fmt.Errorf("query exceeds maximum length (%d)", maxQueryLength)
 	}
 
-	return
+	return nil
 }
 
 // getApiUrl generates the full API url for each request
@@ -193,7 +193,7 @@ func (a *apixu) call(url string, b interface{}) (err error) {
 
 	err = a.formatter.Unmarshal(body, b)
 	if err != nil {
-		return fmt.Errorf("malformed response (%s)", err)
+		return fmt.Errorf("cannot read api response (%s)", err)
 	}
 
 	return
