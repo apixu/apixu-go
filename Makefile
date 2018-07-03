@@ -7,7 +7,7 @@ COVER_PROFILE = cover.out
 all: qa
 
 test:
-	go test $(PKG)
+	go test $(PKG) -cover
 
 coverage:
 	go test $(PKG) -coverprofile $(COVER_PROFILE) && go tool cover -html=$(COVER_PROFILE)
@@ -26,7 +26,7 @@ qainstall:
 qa:
 	go fmt $(PKG)
 	go vet $(PKG)
-	go test $(PKG)
+	go test $(PKG) -cover
 	golint ./...
 	megacheck $(PKG)
 	interfacer $(PKG)
