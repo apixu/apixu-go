@@ -1,5 +1,4 @@
-BASE = github.com/andreiavrammsd/apixu-go
-PKG = . $(BASE)/formatter $(BASE)/response $(BASE)/types
+PKG=$(shell go list ./... | grep -v examples)
 COVER_PROFILE = cover.out
 
 .PHONY: qa
@@ -14,7 +13,7 @@ coverage:
 
 qainstall:
 	@set -eu; \
-	go get \
+	go get -t \
 		github.com/stretchr/testify/assert \
 		golang.org/x/tools/cmd/goimports \
 		golang.org/x/lint/golint \
@@ -27,7 +26,7 @@ qa:
 	go fmt $(PKG)
 	go vet $(PKG)
 	go test $(PKG) -cover
-	golint ./...
+	golint $(PKG)
 	megacheck $(PKG)
 	interfacer $(PKG)
 	prealloc $(PKG)
