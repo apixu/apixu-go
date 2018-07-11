@@ -2,11 +2,11 @@
 
 Go package for [Apixu Weather API](https://www.apixu.com/api.aspx)
 
-[![GoDoc](https://godoc.org/github.com/andreiavrammsd/apixu-go?status.svg)](https://godoc.org/github.com/andreiavrammsd/apixu-go)
+[![GoDoc](https://godoc.org/github.com/apixu/apixu-go?status.svg)](https://godoc.org/github.com/apixu/apixu-go)
 
 ## Install
 
-go get github.com/andreiavrammsd/apixu-go
+go get github.com/apixu/apixu-go
 
 ## Usage
 

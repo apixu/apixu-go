@@ -1,6 +1,6 @@
 package response
 
-import "github.com/andreiavrammsd/apixu-go/types"
+import "github.com/apixu/apixu-go/types"
 
 // Current defines the current weather info
 type Current struct {

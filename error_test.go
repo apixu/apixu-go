@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/andreiavrammsd/apixu-go/response"
+	"github.com/apixu/apixu-go/response"
 	"github.com/stretchr/testify/assert"
 )
 

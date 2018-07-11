@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/andreiavrammsd/apixu-go"
+	"github.com/apixu/apixu-go"
 )
 
 func main() {

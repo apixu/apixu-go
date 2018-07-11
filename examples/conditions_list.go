@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/andreiavrammsd/apixu-go"
+	"github.com/apixu/apixu-go"
 )
 
 func main() {

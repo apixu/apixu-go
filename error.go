@@ -1,6 +1,6 @@
 package apixu
 
-import "github.com/andreiavrammsd/apixu-go/response"
+import "github.com/apixu/apixu-go/response"
 
 // Error adds error details based on the API error response
 type Error struct {
