@@ -70,6 +70,8 @@ func main() {
 		fmt.Println("\t\t\tSunset:", fc.Astro.Sunset)
 		fmt.Println("\t\t\tMoonrise:", fc.Astro.Moonrise)
 		fmt.Println("\t\t\tMoonset:", fc.Astro.Moonset)
+		fmt.Println("\t\t\tMoonPhase:", fc.Astro.MoonPhase)
+		fmt.Println("\t\t\tMoonIllumination:", fc.Astro.MoonIllumination)
 
 		fmt.Println("\t\tHour:")
 		for _, fch := range fc.Hour {

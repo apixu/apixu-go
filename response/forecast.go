@@ -32,10 +32,12 @@ type ForecastWeather struct {
 			UV                float64          `json:"uv" xml:"uv"`
 		} `json:"day" xml:"day"`
 		Astro struct {
-			Sunrise  string `json:"sunrise" xml:"sunrise"`
-			Sunset   string `json:"sunset" xml:"sunset"`
-			Moonrise string `json:"moonrise" xml:"moonrise"`
-			Moonset  string `json:"moonset" xml:"moonset"`
+			Sunrise          string `json:"sunrise" xml:"sunrise"`
+			Sunset           string `json:"sunset" xml:"sunset"`
+			Moonrise         string `json:"moonrise" xml:"moonrise"`
+			Moonset          string `json:"moonset" xml:"moonset"`
+			MoonPhase        string `json:"moon_phase" xml:"moon_phase"`
+			MoonIllumination string `json:"moon_illumination" xml:"moon_illumination"`
 		} `json:"astro" xml:"astro"`
 		Hour []struct {
 			TimeEpoch           int              `json:"time_epoch" xml:"time_epoch"`
