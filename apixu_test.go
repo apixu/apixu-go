@@ -21,9 +21,7 @@ import (
 // TestNew
 func TestNew(t *testing.T) {
 	c := Config{
-		Version: "1",
-		Format:  "json",
-		APIKey:  "apikey",
+		APIKey: "apikey",
 	}
 	a, err := New(c)
 
@@ -49,9 +47,8 @@ func TestNewWithMissingAPIKey(t *testing.T) {
 
 func TestNewWithUnknownFormat(t *testing.T) {
 	c := Config{
-		Version: "1",
-		APIKey:  "apikey",
-		Format:  "txt",
+		APIKey: "apikey",
+		Format: "txt",
 	}
 	a, err := New(c)
 

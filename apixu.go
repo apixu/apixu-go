@@ -17,9 +17,11 @@ import (
 
 const (
 	apiURL                  = "https://api.apixu.com/v%s/%s.%s?key=%s&%s"
+	apiVersion              = "1"
 	docWeatherConditionsURL = "https://www.apixu.com/doc/Apixu_weather_conditions.%s"
 	maxQueryLength          = 256
 	httpTimeout             = time.Second * 20
+	defaultFormat           = "json"
 )
 
 var ioUtilReadAll = ioutil.ReadAll
@@ -202,13 +204,16 @@ func (a *apixu) call(url string, b interface{}) (err error) {
 // New creates an Apixu package instance
 func New(c Config) (Apixu, error) {
 	if c.Version == "" {
-		return nil, errors.New("api version not specified")
+		c.Version = apiVersion
 	}
 
 	if c.APIKey == "" {
 		return nil, errors.New("api key not specified")
 	}
 
+	if c.Format == "" {
+		c.Format = defaultFormat
+	}
 	f, err := formatter.New(c.Format)
 	if err != nil {
 		return nil, err

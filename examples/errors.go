@@ -10,26 +10,12 @@ import (
 )
 
 func main() {
-	// Unknown response format
+	// Missing query
 	config := apixu.Config{
-		Version: "1",
-		Format:  "txt",
-		APIKey:  os.Getenv("APIXUKEY"),
+		APIKey: os.Getenv("APIXUKEY"),
 	}
 
 	a, err := apixu.New(config)
-	if err != nil {
-		log.Println(err)
-	}
-
-	// Missing query
-	config = apixu.Config{
-		Version: "1",
-		Format:  "json",
-		APIKey:  os.Getenv("APIXUKEY"),
-	}
-
-	a, err = apixu.New(config)
 	if err != nil {
 		log.Println(err)
 	}
@@ -58,9 +44,7 @@ func main() {
 
 	// API error
 	config = apixu.Config{
-		Version: "1",
-		Format:  "xml",
-		APIKey:  os.Getenv("APIXUKEY"),
+		APIKey: os.Getenv("APIXUKEY"),
 	}
 
 	a, err = apixu.New(config)

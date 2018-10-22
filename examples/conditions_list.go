@@ -10,9 +10,7 @@ import (
 
 func main() {
 	config := apixu.Config{
-		Version: "1",
-		Format:  "xml",
-		APIKey:  os.Getenv("APIXUKEY"),
+		APIKey: os.Getenv("APIXUKEY"),
 	}
 
 	a, err := apixu.New(config)
