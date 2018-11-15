@@ -6,10 +6,10 @@ COVER_PROFILE = cover.out
 all: qa
 
 test:
-	go test $(PKG) -cover
+	GO111MODULE=on go test $(PKG) -cover
 
 coverage:
-	go test $(PKG) -coverprofile $(COVER_PROFILE) && go tool cover -html=$(COVER_PROFILE)
+	GO111MODULE=on go test $(PKG) -coverprofile $(COVER_PROFILE) && go tool cover -html=$(COVER_PROFILE)
 
 qainstall:
 	@set -eu; \
