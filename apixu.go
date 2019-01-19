@@ -155,7 +155,7 @@ func (a *apixu) getAPIURL(req request) string {
 }
 
 // call uses the HTTP client to call the REST service
-func (a *apixu) call(url string, b interface{}) (err error) {
+func (a *apixu) call(url string, b interface{}) error {
 	res, err := a.httpClient.Get(url)
 	if err != nil {
 		return fmt.Errorf("cannot call service (%s)", err)
@@ -198,7 +198,7 @@ func (a *apixu) call(url string, b interface{}) (err error) {
 		return fmt.Errorf("cannot read api response (%s)", err)
 	}
 
-	return
+	return nil
 }
 
 // New creates an Apixu package instance

@@ -10,7 +10,10 @@ import (
 // DateTime is used to convert string represented time to time.Time format
 type DateTime time.Time
 
-const dateMarshalFormat = "2006-01-02 15:04"
+const (
+	dateMarshalFormat = "2006-01-02 15:04"
+	null              = "null"
+)
 
 // dateLayouts of supported time formats
 var dateLayouts = []string{
@@ -22,7 +25,7 @@ var dateLayouts = []string{
 func (t *DateTime) MarshalJSON() ([]byte, error) {
 	dt := formatDate(t)
 
-	res := "null"
+	res := null
 	if dt != nil {
 		res = fmt.Sprintf(`"%s"`, *dt)
 	}

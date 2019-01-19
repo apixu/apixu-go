@@ -334,8 +334,8 @@ func TestApixu_APIErrorResponse(t *testing.T) {
 	assert.IsType(t, &Error{}, err)
 
 	expectedErrorResponse := &response.Error{}
-	if err := f.Unmarshal(data, expectedErrorResponse); err != nil {
-		assert.Fail(t, err.Error())
+	if e := f.Unmarshal(data, expectedErrorResponse); e != nil {
+		assert.Fail(t, e.Error())
 	}
 	expectedError := &Error{
 		err: err.(*Error).err,

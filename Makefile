@@ -1,33 +1,20 @@
-PKG=$(shell go list ./... | grep -v examples)
-COVER_PROFILE = cover.out
+.PHONY: all test qainstall coverage lint
 
-.PHONY: qa
+GO111MODULE=on
+COVER_PROFILE=cover.out
 
-all: qa
-
-test:
-	GO111MODULE=on go test $(PKG) -cover
-
-coverage:
-	GO111MODULE=on go test $(PKG) -coverprofile $(COVER_PROFILE) && go tool cover -html=$(COVER_PROFILE)
+all: test lint
 
 qainstall:
 	@set -eu; \
-	go get -t \
-		github.com/stretchr/testify/assert \
-		golang.org/x/tools/cmd/goimports \
-		golang.org/x/lint/golint \
-		honnef.co/go/tools/cmd/megacheck \
-	   	mvdan.cc/interfacer \
-	   	github.com/alexkohler/prealloc \
-	   	github.com/kisielk/errcheck
+	GO111MODULE=off go get github.com/stretchr/testify/assert; \
+    curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s -- -b /usr/local/bin v1.12.5
 
-qa:
-	go fmt $(PKG)
-	go vet $(PKG)
-	go test $(PKG) -cover
-	golint $(PKG)
-	megacheck $(PKG)
-	interfacer $(PKG)
-	prealloc $(PKG)
-	errcheck $(PKG)
+test:
+	go test ./... -cover
+
+coverage:
+	go test ./... -coverprofile $(COVER_PROFILE) && go tool cover -html=$(COVER_PROFILE)
+
+lint:
+	golangci-lint run

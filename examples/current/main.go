@@ -72,6 +72,4 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Printf("\n%s", data)
-
-	return
 }
