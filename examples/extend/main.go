@@ -50,7 +50,9 @@ func (a *MyApixuAPI) Conditions() (res MyConditions, err error) {
 		c.Day = strings.ToUpper(c.Day)
 
 		sha := sha256.New()
-		sha.Write([]byte(fmt.Sprintf("%d.%s", c.Code, idHashKey)))
+		if _, e := sha.Write([]byte(fmt.Sprintf("%d.%s", c.Code, idHashKey))); e != nil {
+			return res, e
+		}
 		id := fmt.Sprintf("%x", sha.Sum(nil))
 
 		cond := MyCondition{

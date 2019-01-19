@@ -10,7 +10,7 @@ go get github.com/apixu/apixu-go
 
 ## Usage
 
-See the [examples](./examples) and run them with: APIXUKEY=yourapikey go run examples/_filename_.go
+See the [examples](./examples) and run them with: GO111MODULE=on APIXUKEY=yourapikey go run examples/\<dirname\>/main.go
 
 ## Error handling
 

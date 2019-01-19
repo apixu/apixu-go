@@ -1,19 +1,19 @@
-PKG=$(shell go list ./... | grep -v examples)
-COVER_PROFILE = cover.out
+.PHONY: all test coverage qainstall qa
 
-.PHONY: qa
+GO111MODULE=on
+COVER_PROFILE=cover.out
 
 all: qa
 
 test:
-	GO111MODULE=on go test $(PKG) -cover
+	go test ./... -cover
 
 coverage:
-	GO111MODULE=on go test $(PKG) -coverprofile $(COVER_PROFILE) && go tool cover -html=$(COVER_PROFILE)
+	go test ./... -coverprofile $(COVER_PROFILE) && go tool cover -html=$(COVER_PROFILE)
 
 qainstall:
 	@set -eu; \
-	go get -t \
+	GO111MODULE=off go get \
 		github.com/stretchr/testify/assert \
 		golang.org/x/tools/cmd/goimports \
 		golang.org/x/lint/golint \
@@ -22,12 +22,11 @@ qainstall:
 	   	github.com/alexkohler/prealloc \
 	   	github.com/kisielk/errcheck
 
-qa:
-	go fmt $(PKG)
-	go vet $(PKG)
-	go test $(PKG) -cover
-	golint $(PKG)
-	megacheck $(PKG)
-	interfacer $(PKG)
-	prealloc $(PKG)
-	errcheck $(PKG)
+qa: test
+	go fmt ./...
+	go vet ./...
+	golint ./...
+	megacheck ./...
+	interfacer ./...
+	prealloc ./...
+	errcheck ./...
