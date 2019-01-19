@@ -40,16 +40,17 @@ type ForecastWeather struct {
 			MoonIllumination string `json:"moon_illumination" xml:"moon_illumination"`
 		} `json:"astro" xml:"astro"`
 		Hour []struct {
-			TimeEpoch           int              `json:"time_epoch" xml:"time_epoch"`
+			Condition           CurrentCondition `json:"condition" xml:"condition"`
 			Time                types.DateTime   `json:"time" xml:"time"`
+			WindDirection       string           `json:"wind_dir" xml:"wind_dir"`
+			ChanceOfRain        string           `json:"chance_of_rain" xml:"chance_of_rain"`
+			ChanceOfSnow        string           `json:"chance_of_snow" xml:"chance_of_snow"`
+			TimeEpoch           int              `json:"time_epoch" xml:"time_epoch"`
 			TempCelsius         float64          `json:"temp_c" xml:"temp_c"`
 			TempFahrenheit      float64          `json:"temp_f" xml:"temp_f"`
-			IsDay               types.Bool       `json:"is_day" xml:"is_day"`
-			Condition           CurrentCondition `json:"condition" xml:"condition"`
 			WindMPH             float64          `json:"wind_mph" xml:"wind_mph"`
 			WindKMH             float64          `json:"wind_kph" xml:"wind_kph"`
 			WindDegree          int              `json:"wind_degree" xml:"wind_degree"`
-			WindDirection       string           `json:"wind_dir" xml:"wind_dir"`
 			PressureMB          float64          `json:"pressure_mb" xml:"pressure_mb"`
 			PressureIN          float64          `json:"pressure_in" xml:"pressure_in"`
 			PrecipMM            float64          `json:"precip_mm" xml:"precip_mm"`
@@ -64,12 +65,11 @@ type ForecastWeather struct {
 			HeatIndexFahrenheit float64          `json:"heatindex_f" xml:"heatindex_f"`
 			DewPointCelsius     float64          `json:"dewpoint_c" xml:"dewpoint_c"`
 			DewPointFahrenheit  float64          `json:"dewpoint_f" xml:"dewpoint_f"`
-			WillItRain          types.Bool       `json:"will_it_rain" xml:"will_it_rain"`
-			ChanceOfRain        string           `json:"chance_of_rain" xml:"chance_of_rain"`
-			WillItSnow          types.Bool       `json:"will_it_snow" xml:"will_it_snow"`
-			ChanceOfSnow        string           `json:"chance_of_snow" xml:"chance_of_snow"`
 			VisKM               float64          `json:"vis_km" xml:"vis_km"`
 			VisMiles            float64          `json:"vis_miles" xml:"vis_miles"`
+			IsDay               types.Bool       `json:"is_day" xml:"is_day"`
+			WillItRain          types.Bool       `json:"will_it_rain" xml:"will_it_rain"`
+			WillItSnow          types.Bool       `json:"will_it_snow" xml:"will_it_snow"`
 		} `json:"hour,omitempty" xml:"hour,omitempty"`
 	} `json:"forecastday" xml:"forecastday"`
 }
