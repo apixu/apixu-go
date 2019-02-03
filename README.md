@@ -28,7 +28,7 @@ https://www.apixu.com/doc/
 
 ## Extending the package
 
-See the [extend example](./examples/extend).
+See the [extend example](./examples/extend/main.go).
 
 ## Testing and QA tools for development
 
