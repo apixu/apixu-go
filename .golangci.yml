@@ -83,24 +83,63 @@ linters-settings:
     # To check which checks are enabled run `GL_DEBUG=gocritic golangci-lint run`
     # By default list of stable checks is used.
     enabled-checks:
-      - rangeValCopy
-      - regexpMust
-      - singleCaseSwitch
-      - appendCombine
-      - builtinShadow
-      - captLocal
-      - caseOrder
-      - commentedOutCode
-      - deadCodeAfterLogFatal
-      - defaultCaseOrder
-      - deferInLoop
-      - deprecatedComment
-      - docStub
-      - dupArg
-      - dupBranchBody
-      - elseif
-      - flagDeref
-      - ifElseChain
+      - appendassign
+      - appendcombine
+      - argorder
+      - assignop
+      - badcond
+      - boolexprsimplify
+      - builtinshadow
+      - captlocal
+      - caseorder
+      - codegencomment
+      - commentedoutcode
+      - commentedoutimport
+      - commentformatting
+      - defaultcaseorder
+      - deprecatedcomment
+      - docstub
+      - duparg
+      - dupbranchbody
+      - dupcase
+      - dupsubexpr
+      - emptyfallthrough
+      - emptystringtest
+      - equalfold
+      - exitafterdefer
+      - flagderef
+      - flagname
+      - hexliteral
+      - hugeparam
+      - ifelsechain
+      - importshadow
+      - indexalloc
+      - initclause
+      - methodexprcall
+      - nestingreduce
+      - nilvalreturn
+      - octalliteral
+      - offby1
+      - paramtypecombine
+      - ptrtorefparam
+      - rangeexprcopy
+      - rangevalcopy
+      - regexpmust
+      - singlecaseswitch
+      - sloppylen
+      - sloppyreassign
+      - stringxbytes
+      - switchtrue
+      - typeassertchain
+      - typeswitchvar
+      - typeunparen
+      - unlabelstmt
+      - unnamedresult
+      - unnecessaryblock
+      - valswap
+      - weakcond
+      - wrapperfunc
+      - yodastyleexpr
 
     # Enable multiple checks by tags, run `GL_DEBUG=gocritic golangci-lint` run to see all tags and checks.
     # Empty list by default. See https://github.com/go-critic/go-critic#usage -> section "Tags".
@@ -109,7 +148,7 @@ linters-settings:
 
     settings: # settings passed to gocritic
       captLocal: # must be valid enabled check name
-        checkLocals: true
+        paramsOnly: true
       rangeValCopy:
         sizeThreshold: 32
 
