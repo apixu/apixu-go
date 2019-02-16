@@ -59,7 +59,7 @@ func TestNewWithUnknownFormat(t *testing.T) {
 type httpClientMock struct {
 }
 
-func (*httpClientMock) Get(url string) (*http.Response, error) {
+func (*httpClientMock) Get(string) (*http.Response, error) {
 	return httpClientResponse, httpClientError
 }
 

@@ -155,8 +155,8 @@ func (a *apixu) getAPIURL(req request) string {
 }
 
 // call uses the HTTP client to call the REST service
-func (a *apixu) call(url string, b interface{}) error {
-	res, err := a.httpClient.Get(url)
+func (a *apixu) call(apiURL string, b interface{}) error {
+	res, err := a.httpClient.Get(apiURL)
 	if err != nil {
 		return fmt.Errorf("cannot call service (%s)", err)
 	}
