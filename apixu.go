@@ -11,8 +11,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/apixu/apixu-go/formatter"
-	"github.com/apixu/apixu-go/response"
+	"github.com/apixu/apixu-go/v2/formatter"
+	"github.com/apixu/apixu-go/v2/response"
 )
 
 const (

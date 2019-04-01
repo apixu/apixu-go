@@ -1,6 +1,6 @@
 package response
 
-import "github.com/apixu/apixu-go/types"
+import "github.com/apixu/apixu-go/v2/types"
 
 // Forecast defines the weather forecast response
 type Forecast struct {

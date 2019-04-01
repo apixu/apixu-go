@@ -14,7 +14,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/apixu/apixu-go/response"
+	"github.com/apixu/apixu-go/v2/response"
 	"github.com/stretchr/testify/assert"
 )
 

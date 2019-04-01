@@ -8,8 +8,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/apixu/apixu-go"
-	"github.com/apixu/apixu-go/response"
+	"github.com/apixu/apixu-go/v2"
+	"github.com/apixu/apixu-go/v2/response"
 )
 
 const idHashKey = "secretkey"

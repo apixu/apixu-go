@@ -1,4 +1,4 @@
-module github.com/apixu/apixu-go
+module github.com/apixu/apixu-go/v2
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
