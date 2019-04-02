@@ -21,7 +21,12 @@ func main() {
 
 	q := "Rome"
 	days := 5
-	forecast, err := a.Forecast(q, days)
+
+	// Hourly weather forecast is available for paid licenses only.
+	// Pass nil with a free license or if you need all hours.
+	hour := 17
+
+	forecast, err := a.Forecast(q, days, &hour)
 
 	if err != nil {
 		if e, ok := err.(*apixu.Error); ok {
@@ -105,11 +110,12 @@ func main() {
 			fmt.Println("\t\t\tText:", hour.Condition.Text)
 			fmt.Println("\t\t\tIcon:", hour.Condition.Icon)
 			fmt.Println("\t\t\tCode:", hour.Condition.Code)
-			fmt.Println("\t\t\tWindMPH:", hour.WindMPH)
-			fmt.Println("\t\t\tWindKPH:", hour.WindKPH)
-			fmt.Println("\t\t\tWindDegree:", hour.WindDegree)
-			fmt.Println("\t\t\tGustMPH:", hour.GustMPH)
-			fmt.Println("\t\t\tGustKPH:", hour.GustKPH)
+			fmt.Println("\t\tWindMPH:", hour.WindMPH)
+			fmt.Println("\t\tWindKPH:", hour.WindKPH)
+			fmt.Println("\t\tWindDegree:", hour.WindDegree)
+			fmt.Println("\t\tGustMPH:", hour.GustMPH)
+			fmt.Println("\t\tGustKPH:", hour.GustKPH)
+			fmt.Println("\t\tTime:", time.Time(hour.Time))
 		}
 		fmt.Println()
 	}

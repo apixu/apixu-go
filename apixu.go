@@ -24,11 +24,11 @@ const (
 
 var ioUtilReadAll = ioutil.ReadAll
 
-// Apixu defines methods implemented by Apixu Weather API
+// Apixu Weather API methods
 type Apixu interface {
 	Conditions() (response.Conditions, error)
 	Current(q string) (*response.CurrentWeather, error)
-	Forecast(q string, days int) (*response.Forecast, error)
+	Forecast(q string, days int, hour *int) (*response.Forecast, error)
 	Search(q string) (response.Search, error)
 	History(q string, since time.Time) (*response.History, error)
 }
@@ -67,8 +67,9 @@ func (a *apixu) Current(q string) (res *response.CurrentWeather, err error) {
 	return
 }
 
-// Forecast retrieves weather forecast for up to next 10 days
-func (a *apixu) Forecast(q string, days int) (res *response.Forecast, err error) {
+// Forecast retrieves weather forecast
+// Hourly  forecast is available for paid licenses only
+func (a *apixu) Forecast(q string, days int, hour *int) (res *response.Forecast, err error) {
 	if err = validateQuery(q); err != nil {
 		return
 	}
@@ -76,6 +77,9 @@ func (a *apixu) Forecast(q string, days int) (res *response.Forecast, err error)
 	p := url.Values{}
 	p.Set("q", q)
 	p.Set("days", strconv.Itoa(days))
+	if hour != nil {
+		p.Set("hour", strconv.Itoa(*hour))
+	}
 
 	req := request{
 		method: "forecast",

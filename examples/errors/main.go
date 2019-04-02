@@ -20,7 +20,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	_, err = a.Forecast("", 1)
+	_, err = a.Forecast("", 1, nil)
 	if err != nil {
 		log.Println(err)
 	}
@@ -35,7 +35,7 @@ func main() {
 		log.Println(err)
 	}
 
-	_, err = a.Forecast(strings.Repeat("a", 257), 1)
+	_, err = a.Forecast(strings.Repeat("a", 257), 1, nil)
 	if err != nil {
 		log.Println(err)
 	}
