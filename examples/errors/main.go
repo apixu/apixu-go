@@ -17,7 +17,7 @@ func main() {
 
 	a, err := apixu.New(config)
 	if err != nil {
-		log.Println(err)
+		log.Fatal(err)
 	}
 
 	_, err = a.Forecast("", 1)
