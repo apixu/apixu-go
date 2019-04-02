@@ -16,8 +16,7 @@ import (
 )
 
 const (
-	apiURL                  = "https://api.apixu.com/v%s/%s.%s?key=%s&%s"
-	apiVersion              = "1"
+	apiURL                  = "https://api.apixu.com/v1/%s.%s?key=%s&%s"
 	docWeatherConditionsURL = "https://www.apixu.com/doc/Apixu_weather_conditions.%s"
 	maxQueryLength          = 256
 	httpTimeout             = time.Second * 20
@@ -146,7 +145,6 @@ func validateQuery(q string) error {
 func (a *apixu) getAPIURL(req request) string {
 	return fmt.Sprintf(
 		apiURL,
-		a.config.Version,
 		req.method,
 		a.config.Format,
 		a.config.APIKey,
@@ -203,10 +201,6 @@ func (a *apixu) call(apiURL string, b interface{}) error {
 
 // New creates an Apixu package instance
 func New(c Config) (Apixu, error) {
-	if c.Version == "" {
-		c.Version = apiVersion
-	}
-
 	if c.APIKey == "" {
 		return nil, errors.New("api key not specified")
 	}

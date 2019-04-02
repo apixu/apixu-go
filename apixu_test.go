@@ -37,9 +37,7 @@ func TestNewWithMissingVersion(t *testing.T) {
 }
 
 func TestNewWithMissingAPIKey(t *testing.T) {
-	c := Config{
-		Version: "1",
-	}
+	c := Config{}
 	a, err := New(c)
 	assert.Nil(t, a)
 	assert.Error(t, err)
@@ -390,9 +388,8 @@ func TestApixu_APIMalformedErrorResponse(t *testing.T) {
 func TestGetApiUrl(t *testing.T) {
 	a := &apixu{}
 	a.config = Config{
-		Version: "1",
-		Format:  "xml",
-		APIKey:  "apikey",
+		Format: "xml",
+		APIKey: "apikey",
 	}
 
 	p := url.Values{}
@@ -405,7 +402,6 @@ func TestGetApiUrl(t *testing.T) {
 
 	expected := fmt.Sprintf(
 		apiURL,
-		a.config.Version,
 		req.method,
 		a.config.Format,
 		a.config.APIKey,

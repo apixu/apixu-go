@@ -27,9 +27,8 @@ func main() {
 
 	// Query too long
 	config = apixu.Config{
-		Version: "1",
-		Format:  "json",
-		APIKey:  os.Getenv("APIXUKEY"),
+		Format: "json",
+		APIKey: os.Getenv("APIXUKEY"),
 	}
 
 	a, err = apixu.New(config)
