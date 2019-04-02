@@ -201,7 +201,7 @@ func (a *apixu) call(apiURL string, b interface{}) error {
 
 // New creates an Apixu package instance
 func New(c Config) (Apixu, error) {
-	if c.APIKey == "" {
+	if strings.TrimSpace(c.APIKey) == "" {
 		return nil, errors.New("api key not specified")
 	}
 
