@@ -1,93 +1,38 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<root>
-   <geo>
-      <id>787824</id>
-      <name>Le Bouscat, Aquitaine, France</name>
-      <region>Aquitaine</region>
-      <country>France</country>
-      <lat>44.87</lat>
-      <lon>-0.62</lon>
-      <url>le-bouscat-aquitaine-france</url>
-   </geo>
-   <geo>
-      <id>765318</id>
-      <name>Bruges, Aquitaine, France</name>
-      <region>Aquitaine</region>
-      <country>France</country>
-      <lat>44.88</lat>
-      <lon>-0.62</lon>
-      <url>bruges-aquitaine-france</url>
-   </geo>
-   <geo>
-      <id>766743</id>
-      <name>Cauderan, Aquitaine, France</name>
-      <region>Aquitaine</region>
-      <country>France</country>
-      <lat>44.85</lat>
-      <lon>-0.62</lon>
-      <url>cauderan-aquitaine-france</url>
-   </geo>
-   <geo>
-      <id>771182</id>
-      <name>Couderas, Aquitaine, France</name>
-      <region>Aquitaine</region>
-      <country>France</country>
-      <lat>44.85</lat>
-      <lon>-0.62</lon>
-      <url>couderas-aquitaine-france</url>
-   </geo>
-   <geo>
-      <id>766270</id>
-      <name>Capeyron, Aquitaine, France</name>
-      <region>Aquitaine</region>
-      <country>France</country>
-      <lat>44.85</lat>
-      <lon>-0.63</lon>
-      <url>capeyron-aquitaine-france</url>
-   </geo>
-   <geo>
-      <id>778390</id>
-      <name>Grand-Louis, Aquitaine, France</name>
-      <region>Aquitaine</region>
-      <country>France</country>
-      <lat>44.85</lat>
-      <lon>-0.63</lon>
-      <url>grand-louis-aquitaine-france</url>
-   </geo>
-   <geo>
-      <id>788815</id>
-      <name>Le Grand-Louis, Aquitaine, France</name>
-      <region>Aquitaine</region>
-      <country>France</country>
-      <lat>44.85</lat>
-      <lon>-0.63</lon>
-      <url>le-grand-louis-aquitaine-france</url>
-   </geo>
-   <geo>
-      <id>774898</id>
-      <name>Eysines, Aquitaine, France</name>
-      <region>Aquitaine</region>
-      <country>France</country>
-      <lat>44.88</lat>
-      <lon>-0.65</lon>
-      <url>eysines-aquitaine-france</url>
-   </geo>
-   <geo>
-      <id>761555</id>
-      <name>Bechade, Aquitaine, France</name>
-      <region>Aquitaine</region>
-      <country>France</country>
-      <lat>44.85</lat>
-      <lon>-0.65</lon>
-      <url>bechade-aquitaine-france</url>
-   </geo>
-   <geo>
-      <id>797874</id>
-      <name>Merignae, Aquitaine, France</name>
-      <region>Aquitaine</region>
-      <country>France</country>
-      <lat>44.83</lat>
-      <lon>-0.63</lon>
-      <url>merignae-aquitaine-france</url>
-   </geo>
-</root>
+[  
+   {  
+      "id":794151,
+      "name":"Libourne, Aquitaine, France",
+      "region":"Aquitaine",
+      "country":"France",
+      "lat":44.92,
+      "lon":-0.23,
+      "url":"libourne-aquitaine-france"
+   },
+   {  
+      "id":776897,
+      "name":"Fronsac, Aquitaine, France",
+      "region":"Aquitaine",
+      "country":"France",
+      "lat":44.92,
+      "lon":-0.27,
+      "url":"fronsac-aquitaine-france"
+   },
+   {  
+      "id":805044,
+      "name":"Pomerol, Aquitaine, France",
+      "region":"Aquitaine",
+      "country":"France",
+      "lat":44.93,
+      "lon":-0.2,
+      "url":"pomerol-aquitaine-france"
+   },
+   {  
+      "id":790905,
+      "name":"Les Billaux, Aquitaine, France",
+      "region":"Aquitaine",
+      "country":"France",
+      "lat":44.95,
+      "lon":-0.23,
+      "url":"les-billaux-aquitaine-france"
+   }
+]

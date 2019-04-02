@@ -2,6 +2,7 @@
 package apixu
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -11,16 +12,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/apixu/apixu-go/v2/formatter"
 	"github.com/apixu/apixu-go/v2/response"
 )
 
 const (
-	apiURL                  = "https://api.apixu.com/v1/%s.%s?key=%s&%s"
-	docWeatherConditionsURL = "https://www.apixu.com/doc/Apixu_weather_conditions.%s"
+	apiURL                  = "https://api.apixu.com/v1/%s.json?key=%s&%s"
+	docWeatherConditionsURL = "https://www.apixu.com/doc/Apixu_weather_conditions.json"
 	maxQueryLength          = 256
 	httpTimeout             = time.Second * 20
-	defaultFormat           = "json"
 )
 
 var ioUtilReadAll = ioutil.ReadAll
@@ -37,7 +36,6 @@ type Apixu interface {
 type apixu struct {
 	config     Config
 	httpClient httpClient
-	formatter  formatter.Formatter
 }
 
 type request struct {
@@ -47,8 +45,7 @@ type request struct {
 
 // Conditions retrieves the weather conditions list
 func (a *apixu) Conditions() (res response.Conditions, err error) {
-	u := fmt.Sprintf(docWeatherConditionsURL, a.config.Format)
-	err = a.call(u, &res)
+	err = a.call(docWeatherConditionsURL, &res)
 	return
 }
 
@@ -146,7 +143,6 @@ func (a *apixu) getAPIURL(req request) string {
 	return fmt.Sprintf(
 		apiURL,
 		req.method,
-		a.config.Format,
 		a.config.APIKey,
 		req.params.Encode(),
 	)
@@ -176,8 +172,7 @@ func (a *apixu) call(apiURL string, b interface{}) error {
 		}
 
 		apiError := response.Error{}
-		err = a.formatter.Unmarshal(body, &apiError)
-		if err != nil {
+		if err = json.Unmarshal(body, &apiError); err != nil {
 			return fmt.Errorf("malformed error response (%s)", err)
 		}
 
@@ -191,8 +186,7 @@ func (a *apixu) call(apiURL string, b interface{}) error {
 		}
 	}
 
-	err = a.formatter.Unmarshal(body, b)
-	if err != nil {
+	if err = json.Unmarshal(body, &b); err != nil {
 		return fmt.Errorf("cannot read api response (%s)", err)
 	}
 
@@ -205,20 +199,11 @@ func New(c Config) (Apixu, error) {
 		return nil, errors.New("api key not specified")
 	}
 
-	if c.Format == "" {
-		c.Format = defaultFormat
-	}
-	f, err := formatter.New(c.Format)
-	if err != nil {
-		return nil, err
-	}
-
 	a := &apixu{
 		config: c,
 		httpClient: &http.Client{
 			Timeout: httpTimeout,
 		},
-		formatter: f,
 	}
 
 	return a, nil
