@@ -53,7 +53,7 @@ func main() {
 	fmt.Println("\t\tIcon:", curr.Condition.Icon)
 	fmt.Println("\t\tCode:", curr.Condition.Code)
 	fmt.Println("\tWindMPH:", curr.WindMPH)
-	fmt.Println("\tWindKMH:", curr.WindKMH)
+	fmt.Println("\tWindKPH:", curr.WindKPH)
 	fmt.Println("\tWindDegree:", curr.WindDegree)
 	fmt.Println("\tWindDirection:", curr.WindDirection)
 	fmt.Println("\tPressureMB:", curr.PressureMB)

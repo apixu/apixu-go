@@ -11,7 +11,7 @@ type Current struct {
 	IsDay               types.Bool       `json:"is_day" xml:"is_day"`
 	Condition           CurrentCondition `json:"condition" xml:"condition"`
 	WindMPH             float64          `json:"wind_mph" xml:"wind_mph"`
-	WindKMH             float64          `json:"wind_kph" xml:"wind_kph"`
+	WindKPH             float64          `json:"wind_kph" xml:"wind_kph"`
 	WindDegree          int              `json:"wind_degree" xml:"wind_degree"`
 	WindDirection       string           `json:"wind_dir" xml:"wind_dir"`
 	PressureMB          float64          `json:"pressure_mb" xml:"pressure_mb"`
