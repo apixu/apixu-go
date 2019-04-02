@@ -24,6 +24,9 @@ type Current struct {
 	FeelsLikeFahrenheit float64          `json:"feelslike_f" xml:"feelslike_f"`
 	VisKM               float64          `json:"vis_km" xml:"vis_km"`
 	VisMiles            float64          `json:"vis_miles" xml:"vis_miles"`
+	UV                  float64          `json:"uv" xml:"uv"`
+	GustMPH             float64          `json:"gust_mph" xml:"gust_mph"`
+	GustKPH             float64          `json:"gust_kph" xml:"gust_kph"`
 }
 
 // CurrentCondition defines the condition item for current weather response

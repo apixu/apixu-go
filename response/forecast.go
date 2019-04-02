@@ -70,6 +70,8 @@ type ForecastWeather struct {
 			IsDay               types.Bool       `json:"is_day" xml:"is_day"`
 			WillItRain          types.Bool       `json:"will_it_rain" xml:"will_it_rain"`
 			WillItSnow          types.Bool       `json:"will_it_snow" xml:"will_it_snow"`
+			GustMPH             float64          `json:"gust_mph" xml:"gust_mph"`
+			GustKPH             float64          `json:"gust_kph" xml:"gust_kph"`
 		} `json:"hour,omitempty" xml:"hour,omitempty"`
 	} `json:"forecastday" xml:"forecastday"`
 }

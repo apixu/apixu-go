@@ -66,6 +66,9 @@ func main() {
 	fmt.Println("\tFeelsLikeFahrenheit:", curr.FeelsLikeFahrenheit)
 	fmt.Println("\tVisKM:", curr.VisKM)
 	fmt.Println("\tVisMiles:", curr.VisMiles)
+	fmt.Println("\tUV:", curr.UV)
+	fmt.Println("\tGustMPH:", curr.GustMPH)
+	fmt.Println("\tGustKPH:", curr.GustKPH)
 
 	data, err := json.Marshal(current)
 	if err != nil {

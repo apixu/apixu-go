@@ -66,6 +66,9 @@ func main() {
 	fmt.Println("\tFeelsLikeFahrenheit:", curr.FeelsLikeFahrenheit)
 	fmt.Println("\tVisKM:", curr.VisKM)
 	fmt.Println("\tVisMiles:", curr.VisMiles)
+	fmt.Println("\tUV:", curr.UV)
+	fmt.Println("\tGustMPH:", curr.GustMPH)
+	fmt.Println("\tGustKPH:", curr.GustKPH)
 
 	fcast := forecast.Forecast.ForecastDay
 	fmt.Println("Forecast Day")
@@ -96,6 +99,18 @@ func main() {
 		fmt.Println("\t\tSunset:", fc.Astro.Sunset)
 		fmt.Println("\t\tMoonrise:", fc.Astro.Moonrise)
 		fmt.Println("\t\tMoonset:", fc.Astro.Moonset)
+		fmt.Println("\tHourly")
+		for _, hour := range fc.Hour {
+			fmt.Println("\t\tCondition")
+			fmt.Println("\t\t\tText:", hour.Condition.Text)
+			fmt.Println("\t\t\tIcon:", hour.Condition.Icon)
+			fmt.Println("\t\t\tCode:", hour.Condition.Code)
+			fmt.Println("\t\t\tWindMPH:", hour.WindMPH)
+			fmt.Println("\t\t\tWindKPH:", hour.WindKPH)
+			fmt.Println("\t\t\tWindDegree:", hour.WindDegree)
+			fmt.Println("\t\t\tGustMPH:", hour.GustMPH)
+			fmt.Println("\t\t\tGustKPH:", hour.GustKPH)
+		}
 		fmt.Println()
 	}
 }
