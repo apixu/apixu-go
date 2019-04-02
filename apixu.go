@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -22,8 +23,6 @@ const (
 	httpTimeout             = time.Second * 20
 )
 
-var ioUtilReadAll = ioutil.ReadAll
-
 // Apixu Weather API methods
 type Apixu interface {
 	Conditions() (response.Conditions, error)
@@ -36,6 +35,7 @@ type Apixu interface {
 type apixu struct {
 	config     Config
 	httpClient httpClient
+	read       func(r io.Reader) ([]byte, error)
 }
 
 type request struct {
@@ -159,7 +159,7 @@ func (a *apixu) call(apiURL string, b interface{}) error {
 		return fmt.Errorf("cannot call service (%s)", err)
 	}
 
-	body, err := ioUtilReadAll(res.Body)
+	body, err := a.read(res.Body)
 	if err != nil {
 		return fmt.Errorf("cannot read response body (%s)", err)
 	}
@@ -208,6 +208,7 @@ func New(c Config) (Apixu, error) {
 		httpClient: &http.Client{
 			Timeout: httpTimeout,
 		},
+		read: ioutil.ReadAll,
 	}
 
 	return a, nil

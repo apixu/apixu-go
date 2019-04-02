@@ -63,14 +63,14 @@ var (
 )
 
 func TestApixu_Conditions(t *testing.T) {
+	data := loadData(t, "conditions")
+
 	a := &apixu{
 		config:     Config{},
 		httpClient: &httpClientMock{},
-	}
-
-	data := loadData(t, "conditions")
-	ioUtilReadAll = func(r io.Reader) ([]byte, error) {
-		return data, nil
+		read: func(r io.Reader) ([]byte, error) {
+			return data, nil
+		},
 	}
 
 	expected := &response.Conditions{}
@@ -84,14 +84,14 @@ func TestApixu_Conditions(t *testing.T) {
 }
 
 func TestApixu_Current(t *testing.T) {
+	data := loadData(t, "current")
+
 	a := &apixu{
 		config:     Config{},
 		httpClient: &httpClientMock{},
-	}
-
-	data := loadData(t, "current")
-	ioUtilReadAll = func(r io.Reader) ([]byte, error) {
-		return data, nil
+		read: func(r io.Reader) ([]byte, error) {
+			return data, nil
+		},
 	}
 
 	expected := &response.CurrentWeather{}
@@ -116,14 +116,14 @@ func TestApixu_CurrentWithQueryError(t *testing.T) {
 }
 
 func TestApixu_Forecast(t *testing.T) {
+	data := loadData(t, "forecast")
+
 	a := &apixu{
 		config:     Config{},
 		httpClient: &httpClientMock{},
-	}
-
-	data := loadData(t, "forecast")
-	ioUtilReadAll = func(r io.Reader) ([]byte, error) {
-		return data, nil
+		read: func(r io.Reader) ([]byte, error) {
+			return data, nil
+		},
 	}
 
 	expected := &response.Forecast{}
@@ -149,14 +149,14 @@ func TestApixu_ForecastWithQueryError(t *testing.T) {
 }
 
 func TestApixu_Search(t *testing.T) {
+	data := loadData(t, "search")
+
 	a := &apixu{
 		config:     Config{},
 		httpClient: &httpClientMock{},
-	}
-
-	data := loadData(t, "search")
-	ioUtilReadAll = func(r io.Reader) ([]byte, error) {
-		return data, nil
+		read: func(r io.Reader) ([]byte, error) {
+			return data, nil
+		},
 	}
 
 	expected := &response.Search{}
@@ -181,14 +181,14 @@ func TestApixu_SearchWithQueryError(t *testing.T) {
 }
 
 func TestApixu_History(t *testing.T) {
+	data := loadData(t, "history")
+
 	a := &apixu{
 		config:     Config{},
 		httpClient: &httpClientMock{},
-	}
-
-	data := loadData(t, "history")
-	ioUtilReadAll = func(r io.Reader) ([]byte, error) {
-		return data, nil
+		read: func(r io.Reader) ([]byte, error) {
+			return data, nil
+		},
 	}
 
 	expected := &response.History{}
@@ -228,13 +228,12 @@ func TestApixu_ReadResponseBodyError(t *testing.T) {
 	a := &apixu{
 		config:     Config{},
 		httpClient: &httpClientMock{},
+		read: func(r io.Reader) ([]byte, error) {
+			return []byte{}, errors.New("error")
+		},
 	}
 
 	httpClientError = nil
-
-	ioUtilReadAll = func(r io.Reader) ([]byte, error) {
-		return []byte{}, errors.New("error")
-	}
 
 	res, err := a.Search("query")
 	assert.Nil(t, res)
@@ -245,14 +244,13 @@ func TestApixu_CloseResponseBodyError(t *testing.T) {
 	a := &apixu{
 		config:     Config{},
 		httpClient: &httpClientMock{},
+		read: func(r io.Reader) ([]byte, error) {
+			return []byte{}, nil
+		},
 	}
 
 	httpClientError = nil
 	httpClientResponseBodyCloseError = errors.New("error")
-
-	ioUtilReadAll = func(r io.Reader) ([]byte, error) {
-		return []byte{}, nil
-	}
 
 	res, err := a.Search("query")
 	assert.Nil(t, res)
@@ -260,19 +258,19 @@ func TestApixu_CloseResponseBodyError(t *testing.T) {
 }
 
 func TestApixu_APIErrorResponse(t *testing.T) {
+	data := loadData(t, "error")
+
 	a := &apixu{
 		config:     Config{},
 		httpClient: &httpClientMock{},
+		read: func(r io.Reader) ([]byte, error) {
+			return data, nil
+		},
 	}
 
 	httpClientResponse.StatusCode = 400
 	httpClientError = nil
 	httpClientResponseBodyCloseError = nil
-
-	data := loadData(t, "error")
-	ioUtilReadAll = func(r io.Reader) ([]byte, error) {
-		return data, nil
-	}
 
 	res, err := a.Search("query")
 
@@ -295,15 +293,14 @@ func TestApixu_APIInternalServerError(t *testing.T) {
 	a := &apixu{
 		config:     Config{},
 		httpClient: &httpClientMock{},
+		read: func(r io.Reader) ([]byte, error) {
+			return []byte{}, nil
+		},
 	}
 
 	httpClientResponse.StatusCode = 501
 	httpClientError = nil
 	httpClientResponseBodyCloseError = nil
-
-	ioUtilReadAll = func(r io.Reader) ([]byte, error) {
-		return []byte{}, nil
-	}
 
 	res, err := a.Search("query")
 
@@ -315,15 +312,14 @@ func TestApixu_APIMalformedErrorResponse(t *testing.T) {
 	a := &apixu{
 		config:     Config{},
 		httpClient: &httpClientMock{},
+		read: func(r io.Reader) ([]byte, error) {
+			return []byte(`{invalid json}`), nil
+		},
 	}
 
 	httpClientResponse.StatusCode = 400
 	httpClientError = nil
 	httpClientResponseBodyCloseError = nil
-
-	ioUtilReadAll = func(r io.Reader) ([]byte, error) {
-		return []byte(`{invalid json}`), nil
-	}
 
 	res, err := a.Search("query")
 
