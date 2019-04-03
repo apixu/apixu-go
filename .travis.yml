@@ -5,8 +5,5 @@ go:
   - 1.12.x
   - 1.x
 
-before_script:
-  - make qainstall
-
 script:
   - make
