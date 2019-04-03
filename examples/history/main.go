@@ -20,8 +20,13 @@ func main() {
 	}
 
 	q := "London"
-	since := time.Now()
-	history, err := a.History(q, since)
+	since := time.Now().Add(time.Hour * -24)
+
+	// Range history is available for paid licenses only.
+	// Pass nil with a free license or if do not need a limit.
+	until := time.Now()
+
+	history, err := a.History(q, since, &until)
 	if err != nil {
 		if e, ok := err.(*apixu.Error); ok {
 			log.Fatal(e.Error(), e.Response().Code, e.Response().Message)

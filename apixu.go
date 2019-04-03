@@ -21,6 +21,7 @@ const (
 	docWeatherConditionsURL = "https://www.apixu.com/doc/Apixu_weather_conditions.json"
 	maxQueryLength          = 256
 	httpTimeout             = time.Second * 20
+	historyDateFormat       = "2006-01-02"
 )
 
 // Apixu Weather API methods
@@ -29,7 +30,7 @@ type Apixu interface {
 	Current(q string) (*response.CurrentWeather, error)
 	Forecast(q string, days int, hour *int) (*response.Forecast, error)
 	Search(q string) (response.Search, error)
-	History(q string, since time.Time) (*response.History, error)
+	History(q string, since time.Time, until *time.Time) (*response.History, error)
 }
 
 type apixu struct {
@@ -109,14 +110,18 @@ func (a *apixu) Search(q string) (res response.Search, err error) {
 }
 
 // History retrieves historical weather information for a city and a date starting 2015-01-01
-func (a *apixu) History(q string, since time.Time) (res *response.History, err error) {
+// With a paid license, you can request a time range with until parameter.
+func (a *apixu) History(q string, since time.Time, until *time.Time) (res *response.History, err error) {
 	if err = validateQuery(q); err != nil {
 		return
 	}
 
 	p := url.Values{}
 	p.Set("q", q)
-	p.Set("dt", since.Format("2006-01-02"))
+	p.Set("dt", since.Format(historyDateFormat))
+	if until != nil {
+		p.Set("end_dt", until.Format(historyDateFormat))
+	}
 
 	req := request{
 		method: "history",

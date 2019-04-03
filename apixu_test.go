@@ -196,7 +196,7 @@ func TestApixu_History(t *testing.T) {
 		assert.Fail(t, err.Error())
 	}
 
-	res, err := a.History("query", time.Time{})
+	res, err := a.History("query", time.Time{}, &time.Time{})
 	assert.Equal(t, expected, res)
 	assert.NoError(t, err)
 }
@@ -207,7 +207,7 @@ func TestApixu_HistoryWithQueryError(t *testing.T) {
 		httpClient: &httpClientMock{},
 	}
 
-	res, err := a.History("", time.Time{})
+	res, err := a.History("", time.Time{}, nil)
 	assert.Nil(t, res)
 	assert.Error(t, err)
 }

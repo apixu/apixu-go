@@ -55,7 +55,7 @@ func main() {
 		log.Println(err)
 	}
 
-	_, err = a.History("London", date)
+	_, err = a.History("London", date, nil)
 	if err != nil {
 		if e, ok := err.(*apixu.Error); ok {
 			log.Fatal(e.Error(), e.Response().Code, e.Response().Message)
