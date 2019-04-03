@@ -142,7 +142,7 @@ func validateQuery(q string) error {
 	return nil
 }
 
-// getApiUrl generates the full API url for each request
+// getAPIURL generates the full API url for each request
 func (a *apixu) getAPIURL(req request) string {
 	return fmt.Sprintf(
 		apiURL,
