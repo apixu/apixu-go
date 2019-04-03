@@ -183,5 +183,6 @@ linters:
     - scopelint
     - gocritic
     - gochecknoinits
+    - gochecknoglobals
     - errcheck
   fast: false
