@@ -7,7 +7,7 @@ all: test lint
 
 qainstall:
 	@set -eu; \
-    curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s -- -b ./bin v1.14.0
+    curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s -- -b ./bin v1.16.0
 
 test:
 	go test `go list ./... | grep -v examples` -cover
