@@ -1,7 +1,6 @@
 package types
 
 import (
-	"encoding/xml"
 	"fmt"
 	"strconv"
 )
@@ -19,27 +18,6 @@ func (b *Bool) UnmarshalJSON(data []byte) (err error) {
 	value, err := parseBool(num)
 	if err != nil {
 		return err
-	}
-
-	*b = Bool(value)
-
-	return
-}
-
-// UnmarshalXML converts int to bool from XML
-func (b *Bool) UnmarshalXML(d *xml.Decoder, start xml.StartElement) (err error) {
-	var el *int
-	if err = d.DecodeElement(&el, &start); err != nil {
-		return
-	}
-
-	if el == nil {
-		return nil
-	}
-
-	value, err := parseBool(*el)
-	if err != nil {
-		return
 	}
 
 	*b = Bool(value)
