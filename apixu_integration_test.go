@@ -92,6 +92,24 @@ func TestApixu_History(t *testing.T) {
 	validate(t, res, "history")
 }
 
+func TestApixu_Error(t *testing.T) {
+	a, err := apixu.New(apixu.Config{
+		APIKey: os.Getenv("APIXUKEY"),
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_, err = a.History(" . ", time.Now().Add(time.Hour*-24), nil)
+	if err == nil {
+		t.Fatal("error expected")
+	}
+
+	res := err.(*apixu.Error).Response()
+
+	validate(t, res, "error")
+}
+
 func validate(t *testing.T, data interface{}, schemaFile string) {
 	schemaLoader := gojsonschema.NewReferenceLoader(fmt.Sprintf("file://./testdata/schema/%s.json", schemaFile))
 	schema, err := gojsonschema.NewSchema(schemaLoader)
