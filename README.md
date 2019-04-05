@@ -8,7 +8,7 @@ Go package for [Apixu Weather API](https://www.apixu.com/api.aspx)
 
 Add to your `go.mod` file
 ```
-require github.com/apixu/apixu-go/v2 v4.0.0
+require github.com/apixu/apixu-go/v2 v2.0.0
 ```
 or run
 ```
