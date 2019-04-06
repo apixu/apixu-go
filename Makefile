@@ -1,4 +1,4 @@
-.PHONY: all test qainstall coverage lint
+.PHONY: all test lint coverage integration
 
 GO111MODULE=on
 COVER_PROFILE=cover.out
