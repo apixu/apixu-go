@@ -1,11 +1,9 @@
 language: go
 
 go:
-  - 1.x
   - 1.11.x
-
-before_script:
-  - make qainstall
+  - 1.12.x
+  - 1.x
 
 script:
   - make

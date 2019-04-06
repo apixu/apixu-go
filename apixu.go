@@ -2,8 +2,10 @@
 package apixu
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -11,34 +13,30 @@ import (
 	"strings"
 	"time"
 
-	"github.com/apixu/apixu-go/formatter"
-	"github.com/apixu/apixu-go/response"
+	"github.com/apixu/apixu-go/v2/response"
 )
 
 const (
-	apiURL                  = "https://api.apixu.com/v%s/%s.%s?key=%s&%s"
-	apiVersion              = "1"
-	docWeatherConditionsURL = "https://www.apixu.com/doc/Apixu_weather_conditions.%s"
+	apiURL                  = "https://api.apixu.com/v1/%s.json?key=%s&%s"
+	docWeatherConditionsURL = "https://www.apixu.com/doc/Apixu_weather_conditions.json"
 	maxQueryLength          = 256
 	httpTimeout             = time.Second * 20
-	defaultFormat           = "json"
+	historyDateFormat       = "2006-01-02"
 )
 
-var ioUtilReadAll = ioutil.ReadAll
-
-// Apixu defines methods implemented by Apixu Weather API
+// Apixu Weather API methods
 type Apixu interface {
 	Conditions() (response.Conditions, error)
 	Current(q string) (*response.CurrentWeather, error)
-	Forecast(q string, days int) (*response.Forecast, error)
+	Forecast(q string, days int, hour *int) (*response.Forecast, error)
 	Search(q string) (response.Search, error)
-	History(q string, since time.Time) (*response.History, error)
+	History(q string, since time.Time, until *time.Time) (*response.History, error)
 }
 
 type apixu struct {
 	config     Config
 	httpClient httpClient
-	formatter  formatter.Formatter
+	read       func(r io.Reader) ([]byte, error)
 }
 
 type request struct {
@@ -48,8 +46,7 @@ type request struct {
 
 // Conditions retrieves the weather conditions list
 func (a *apixu) Conditions() (res response.Conditions, err error) {
-	u := fmt.Sprintf(docWeatherConditionsURL, a.config.Format)
-	err = a.call(u, &res)
+	err = a.call(docWeatherConditionsURL, &res)
 	return
 }
 
@@ -71,8 +68,9 @@ func (a *apixu) Current(q string) (res *response.CurrentWeather, err error) {
 	return
 }
 
-// Forecast retrieves weather forecast for up to next 10 days
-func (a *apixu) Forecast(q string, days int) (res *response.Forecast, err error) {
+// Forecast retrieves weather forecast
+// Hourly  forecast is available for paid licenses only
+func (a *apixu) Forecast(q string, days int, hour *int) (res *response.Forecast, err error) {
 	if err = validateQuery(q); err != nil {
 		return
 	}
@@ -80,6 +78,9 @@ func (a *apixu) Forecast(q string, days int) (res *response.Forecast, err error)
 	p := url.Values{}
 	p.Set("q", q)
 	p.Set("days", strconv.Itoa(days))
+	if hour != nil {
+		p.Set("hour", strconv.Itoa(*hour))
+	}
 
 	req := request{
 		method: "forecast",
@@ -109,14 +110,18 @@ func (a *apixu) Search(q string) (res response.Search, err error) {
 }
 
 // History retrieves historical weather information for a city and a date starting 2015-01-01
-func (a *apixu) History(q string, since time.Time) (res *response.History, err error) {
+// With a paid license, you can request a time range with until parameter.
+func (a *apixu) History(q string, since time.Time, until *time.Time) (res *response.History, err error) {
 	if err = validateQuery(q); err != nil {
 		return
 	}
 
 	p := url.Values{}
 	p.Set("q", q)
-	p.Set("dt", since.Format("2006-01-02"))
+	p.Set("dt", since.Format(historyDateFormat))
+	if until != nil {
+		p.Set("end_dt", until.Format(historyDateFormat))
+	}
 
 	req := request{
 		method: "history",
@@ -142,13 +147,11 @@ func validateQuery(q string) error {
 	return nil
 }
 
-// getApiUrl generates the full API url for each request
+// getAPIURL generates the full API url for each request
 func (a *apixu) getAPIURL(req request) string {
 	return fmt.Sprintf(
 		apiURL,
-		a.config.Version,
 		req.method,
-		a.config.Format,
 		a.config.APIKey,
 		req.params.Encode(),
 	)
@@ -161,7 +164,7 @@ func (a *apixu) call(apiURL string, b interface{}) error {
 		return fmt.Errorf("cannot call service (%s)", err)
 	}
 
-	body, err := ioUtilReadAll(res.Body)
+	body, err := a.read(res.Body)
 	if err != nil {
 		return fmt.Errorf("cannot read response body (%s)", err)
 	}
@@ -178,8 +181,7 @@ func (a *apixu) call(apiURL string, b interface{}) error {
 		}
 
 		apiError := response.Error{}
-		err = a.formatter.Unmarshal(body, &apiError)
-		if err != nil {
+		if err = json.Unmarshal(body, &apiError); err != nil {
 			return fmt.Errorf("malformed error response (%s)", err)
 		}
 
@@ -193,8 +195,7 @@ func (a *apixu) call(apiURL string, b interface{}) error {
 		}
 	}
 
-	err = a.formatter.Unmarshal(body, b)
-	if err != nil {
+	if err = json.Unmarshal(body, &b); err != nil {
 		return fmt.Errorf("cannot read api response (%s)", err)
 	}
 
@@ -203,20 +204,8 @@ func (a *apixu) call(apiURL string, b interface{}) error {
 
 // New creates an Apixu package instance
 func New(c Config) (Apixu, error) {
-	if c.Version == "" {
-		c.Version = apiVersion
-	}
-
-	if c.APIKey == "" {
+	if strings.TrimSpace(c.APIKey) == "" {
 		return nil, errors.New("api key not specified")
-	}
-
-	if c.Format == "" {
-		c.Format = defaultFormat
-	}
-	f, err := formatter.New(c.Format)
-	if err != nil {
-		return nil, err
 	}
 
 	a := &apixu{
@@ -224,7 +213,7 @@ func New(c Config) (Apixu, error) {
 		httpClient: &http.Client{
 			Timeout: httpTimeout,
 		},
-		formatter: f,
+		read: ioutil.ReadAll,
 	}
 
 	return a, nil

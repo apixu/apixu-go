@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/apixu/apixu-go"
+	"github.com/apixu/apixu-go/v2"
 )
 
 func main() {
@@ -20,8 +20,13 @@ func main() {
 	}
 
 	q := "London"
-	since := time.Now()
-	history, err := a.History(q, since)
+	since := time.Now().Add(time.Hour * -24)
+
+	// Range history is available for paid licenses only.
+	// Pass nil with a free license or if do not need a limit.
+	until := time.Now()
+
+	history, err := a.History(q, since, &until)
 	if err != nil {
 		if e, ok := err.(*apixu.Error); ok {
 			log.Fatal(e.Error(), e.Response().Code, e.Response().Message)
@@ -52,7 +57,7 @@ func main() {
 		fmt.Println("\t\tAvgTempCelsius:", fc.Day.AvgTempCelsius)
 		fmt.Println("\t\tAvgTempFahrenheit:", fc.Day.AvgTempFahrenheit)
 		fmt.Println("\t\tMaxWindMPH:", fc.Day.MaxWindMPH)
-		fmt.Println("\t\tMaxWindKMH:", fc.Day.MaxWindKMH)
+		fmt.Println("\t\tMaxWindKPH:", fc.Day.MaxWindKPH)
 		fmt.Println("\t\tTotalPrecipMM:", fc.Day.TotalPrecipMM)
 		fmt.Println("\t\tTotalPrecipIN:", fc.Day.TotalPrecipIN)
 		fmt.Println("\t\tVisKM:", fc.Day.AvgVisKM)
@@ -83,7 +88,7 @@ func main() {
 			fmt.Println("\t\t\t\tIcon:", fch.Condition.Icon)
 			fmt.Println("\t\t\t\tCode:", fch.Condition.Code)
 			fmt.Println("\t\t\tWindMPH:", fch.WindMPH)
-			fmt.Println("\t\t\tWindKMH:", fch.WindKMH)
+			fmt.Println("\t\t\tWindKPH:", fch.WindKPH)
 			fmt.Println("\t\t\tWindDegree:", fch.WindDegree)
 			fmt.Println("\t\t\tWindDirection:", fch.WindDirection)
 			fmt.Println("\t\t\tPressureMB:", fch.PressureMB)

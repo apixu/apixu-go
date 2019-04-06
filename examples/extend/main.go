@@ -8,8 +8,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/apixu/apixu-go"
-	"github.com/apixu/apixu-go/response"
+	"github.com/apixu/apixu-go/v2"
+	"github.com/apixu/apixu-go/v2/response"
 )
 
 const idHashKey = "secretkey"
@@ -37,9 +37,14 @@ func (c MyConditions) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 
 // MyCondition defines the custom weather condition item
 type MyCondition struct {
-	response.Condition        // Embed main Conditions response
-	ID                 string `json:"id" xml:"id"`                         // Add a new field
-	Code               int    `json:"code,omitempty" xml:"code,omitempty"` // Overwrite existing field to hide it from xml and json representations
+	// Embed main Conditions response
+	response.Condition
+
+	// Add a new field
+	ID string `json:"id" xml:"id"`
+
+	// Overwrite existing field to hide it from xml and json representations
+	Code int `json:"code,omitempty" xml:"code,omitempty"`
 }
 
 // Conditions retrieves the weather conditions list and adds extra information

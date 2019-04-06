@@ -6,16 +6,20 @@ Go package for [Apixu Weather API](https://www.apixu.com/api.aspx)
 
 ## Install
 
-Add to your `go.mod` file or run
+Add to your `go.mod` file
 ```
-go get github.com/apixu/apixu-go
+require github.com/apixu/apixu-go/v2 v2.0.0
+```
+or run
+```
+go get github.com/apixu/apixu-go/v2
 ```
 
 ## Usage
 
 See the [examples](./examples) and run them with:
 ```
-GO111MODULE=on APIXUKEY=yourapikey go run examples/<dirname>/main.go
+APIXUKEY=yourapikey go run examples/<dirname>/main.go
 ```
 
 ## Error handling

@@ -7,7 +7,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/apixu/apixu-go"
+	"github.com/apixu/apixu-go/v2"
 )
 
 func main() {
@@ -53,7 +53,7 @@ func main() {
 	fmt.Println("\t\tIcon:", curr.Condition.Icon)
 	fmt.Println("\t\tCode:", curr.Condition.Code)
 	fmt.Println("\tWindMPH:", curr.WindMPH)
-	fmt.Println("\tWindKMH:", curr.WindKMH)
+	fmt.Println("\tWindKPH:", curr.WindKPH)
 	fmt.Println("\tWindDegree:", curr.WindDegree)
 	fmt.Println("\tWindDirection:", curr.WindDirection)
 	fmt.Println("\tPressureMB:", curr.PressureMB)
@@ -66,6 +66,9 @@ func main() {
 	fmt.Println("\tFeelsLikeFahrenheit:", curr.FeelsLikeFahrenheit)
 	fmt.Println("\tVisKM:", curr.VisKM)
 	fmt.Println("\tVisMiles:", curr.VisMiles)
+	fmt.Println("\tUV:", curr.UV)
+	fmt.Println("\tGustMPH:", curr.GustMPH)
+	fmt.Println("\tGustKPH:", curr.GustKPH)
 
 	data, err := json.Marshal(current)
 	if err != nil {

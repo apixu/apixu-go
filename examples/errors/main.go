@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/apixu/apixu-go"
+	"github.com/apixu/apixu-go/v2"
 )
 
 func main() {
@@ -17,19 +17,17 @@ func main() {
 
 	a, err := apixu.New(config)
 	if err != nil {
-		log.Println(err)
+		log.Fatal(err)
 	}
 
-	_, err = a.Forecast("", 1)
+	_, err = a.Forecast("", 1, nil)
 	if err != nil {
 		log.Println(err)
 	}
 
 	// Query too long
 	config = apixu.Config{
-		Version: "1",
-		Format:  "json",
-		APIKey:  os.Getenv("APIXUKEY"),
+		APIKey: os.Getenv("APIXUKEY"),
 	}
 
 	a, err = apixu.New(config)
@@ -37,7 +35,7 @@ func main() {
 		log.Println(err)
 	}
 
-	_, err = a.Forecast(strings.Repeat("a", 257), 1)
+	_, err = a.Forecast(strings.Repeat("a", 257), 1, nil)
 	if err != nil {
 		log.Println(err)
 	}
@@ -57,7 +55,7 @@ func main() {
 		log.Println(err)
 	}
 
-	_, err = a.History("London", date)
+	_, err = a.History("London", date, nil)
 	if err != nil {
 		if e, ok := err.(*apixu.Error); ok {
 			log.Fatal(e.Error(), e.Response().Code, e.Response().Message)

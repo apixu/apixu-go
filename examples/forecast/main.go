@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/apixu/apixu-go"
+	"github.com/apixu/apixu-go/v2"
 )
 
 func main() {
@@ -21,7 +21,12 @@ func main() {
 
 	q := "Rome"
 	days := 5
-	forecast, err := a.Forecast(q, days)
+
+	// Hourly weather forecast is available for paid licenses only.
+	// Pass nil with a free license or if you need all hours.
+	hour := 17
+
+	forecast, err := a.Forecast(q, days, &hour)
 
 	if err != nil {
 		if e, ok := err.(*apixu.Error); ok {
@@ -53,7 +58,7 @@ func main() {
 	fmt.Println("\t\tIcon:", curr.Condition.Icon)
 	fmt.Println("\t\tCode:", curr.Condition.Code)
 	fmt.Println("\tWindMPH:", curr.WindMPH)
-	fmt.Println("\tWindKMH:", curr.WindKMH)
+	fmt.Println("\tWindKPH:", curr.WindKPH)
 	fmt.Println("\tWindDegree:", curr.WindDegree)
 	fmt.Println("\tWindDirection:", curr.WindDirection)
 	fmt.Println("\tPressureMB:", curr.PressureMB)
@@ -66,6 +71,9 @@ func main() {
 	fmt.Println("\tFeelsLikeFahrenheit:", curr.FeelsLikeFahrenheit)
 	fmt.Println("\tVisKM:", curr.VisKM)
 	fmt.Println("\tVisMiles:", curr.VisMiles)
+	fmt.Println("\tUV:", curr.UV)
+	fmt.Println("\tGustMPH:", curr.GustMPH)
+	fmt.Println("\tGustKPH:", curr.GustKPH)
 
 	fcast := forecast.Forecast.ForecastDay
 	fmt.Println("Forecast Day")
@@ -80,7 +88,7 @@ func main() {
 		fmt.Println("\t\tAvgTempCelsius:", fc.Day.AvgTempCelsius)
 		fmt.Println("\t\tAvgTempFahrenheit:", fc.Day.AvgTempFahrenheit)
 		fmt.Println("\t\tMaxWindMPH:", fc.Day.MaxWindMPH)
-		fmt.Println("\t\tMaxWindKMH:", fc.Day.MaxWindKMH)
+		fmt.Println("\t\tMaxWindKPH:", fc.Day.MaxWindKPH)
 		fmt.Println("\t\tTotalPrecipMM:", fc.Day.TotalPrecipMM)
 		fmt.Println("\t\tTotalPrecipIN:", fc.Day.TotalPrecipIN)
 		fmt.Println("\t\tVisKM:", fc.Day.AvgVisKM)
@@ -96,6 +104,19 @@ func main() {
 		fmt.Println("\t\tSunset:", fc.Astro.Sunset)
 		fmt.Println("\t\tMoonrise:", fc.Astro.Moonrise)
 		fmt.Println("\t\tMoonset:", fc.Astro.Moonset)
+		fmt.Println("\tHourly")
+		for _, hour := range fc.Hour {
+			fmt.Println("\t\tCondition")
+			fmt.Println("\t\t\tText:", hour.Condition.Text)
+			fmt.Println("\t\t\tIcon:", hour.Condition.Icon)
+			fmt.Println("\t\t\tCode:", hour.Condition.Code)
+			fmt.Println("\t\tWindMPH:", hour.WindMPH)
+			fmt.Println("\t\tWindKPH:", hour.WindKPH)
+			fmt.Println("\t\tWindDegree:", hour.WindDegree)
+			fmt.Println("\t\tGustMPH:", hour.GustMPH)
+			fmt.Println("\t\tGustKPH:", hour.GustKPH)
+			fmt.Println("\t\tTime:", time.Time(hour.Time))
+		}
 		fmt.Println()
 	}
 }

@@ -15,12 +15,6 @@ const (
 	null              = "null"
 )
 
-// dateLayouts of supported time formats
-var dateLayouts = []string{
-	"2006-01-02 15:04",
-	"2006-01-02",
-}
-
 // MarshalJSON converts time to string representation
 func (t *DateTime) MarshalJSON() ([]byte, error) {
 	dt := formatDate(t)
@@ -59,29 +53,14 @@ func (t *DateTime) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	return e.EncodeElement(*dt, start)
 }
 
-// UnmarshalXML converts string represented time to time.Time from XML
-func (t *DateTime) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
-	var el *string
-
-	if err := d.DecodeElement(&el, &start); err != nil {
-		return err
-	}
-
-	if *el == "null" {
-		return nil
-	}
-
-	dt, err := parseTime(*el)
-	if err != nil {
-		return err
-	}
-
-	*t = DateTime(dt)
-	return nil
-}
-
 func parseTime(value string) (dt time.Time, err error) {
 	value = strings.Trim(value, `"`)
+
+	// dateLayouts of supported time formats
+	dateLayouts := []string{
+		"2006-01-02 15:04",
+		"2006-01-02",
+	}
 
 	for _, l := range dateLayouts {
 		if dt, err = time.Parse(l, value); err == nil {

@@ -1,6 +1,6 @@
 package response
 
-import "github.com/apixu/apixu-go/types"
+import "github.com/apixu/apixu-go/v2/types"
 
 // Forecast defines the weather forecast response
 type Forecast struct {
@@ -22,7 +22,7 @@ type ForecastWeather struct {
 			AvgTempCelsius    float64          `json:"avgtemp_c" xml:"avgtemp_c"`
 			AvgTempFahrenheit float64          `json:"avgtemp_f" xml:"avgtemp_f"`
 			MaxWindMPH        float64          `json:"maxwind_mph" xml:"maxwind_mph"`
-			MaxWindKMH        float64          `json:"maxwind_kph" xml:"maxwind_kph"`
+			MaxWindKPH        float64          `json:"maxwind_kph" xml:"maxwind_kph"`
 			TotalPrecipMM     float64          `json:"totalprecip_mm" xml:"total_precip_mm"`
 			TotalPrecipIN     float64          `json:"totalprecip_in" xml:"total_precip_in"`
 			AvgVisKM          float64          `json:"avgvis_km" xml:"avgvis_km"`
@@ -49,7 +49,7 @@ type ForecastWeather struct {
 			TempCelsius         float64          `json:"temp_c" xml:"temp_c"`
 			TempFahrenheit      float64          `json:"temp_f" xml:"temp_f"`
 			WindMPH             float64          `json:"wind_mph" xml:"wind_mph"`
-			WindKMH             float64          `json:"wind_kph" xml:"wind_kph"`
+			WindKPH             float64          `json:"wind_kph" xml:"wind_kph"`
 			WindDegree          int              `json:"wind_degree" xml:"wind_degree"`
 			PressureMB          float64          `json:"pressure_mb" xml:"pressure_mb"`
 			PressureIN          float64          `json:"pressure_in" xml:"pressure_in"`
@@ -70,6 +70,8 @@ type ForecastWeather struct {
 			IsDay               types.Bool       `json:"is_day" xml:"is_day"`
 			WillItRain          types.Bool       `json:"will_it_rain" xml:"will_it_rain"`
 			WillItSnow          types.Bool       `json:"will_it_snow" xml:"will_it_snow"`
+			GustMPH             float64          `json:"gust_mph" xml:"gust_mph"`
+			GustKPH             float64          `json:"gust_kph" xml:"gust_kph"`
 		} `json:"hour,omitempty" xml:"hour,omitempty"`
 	} `json:"forecastday" xml:"forecastday"`
 }
