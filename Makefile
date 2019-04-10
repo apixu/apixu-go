@@ -1,7 +1,11 @@
-.PHONY: all test qainstall coverage lint
+.PHONY: all test lint coverage integration env
 
 GO111MODULE=on
 COVER_PROFILE=cover.out
+
+ifndef GOVERSION
+GOVERSION=1.12
+endif
 
 all: test lint
 
@@ -18,3 +22,6 @@ coverage:
 
 integration:
 	go test -v -tags integration
+
+env:
+	docker run --rm -ti -v $(CURDIR):/src -w /src -e APIXUKEY=$(APIXUKEY) golang:$(GOVERSION) bash
