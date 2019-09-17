@@ -14,7 +14,7 @@ test:
 
 lint:
 	@[ ! -f ./bin/golangci-lint ] && curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh \
-		| sh -s -- -b ./bin v1.16.0 || true
+		| sh -s -- -b ./bin v1.18.0 || true
 	./bin/golangci-lint run
 
 coverage:
